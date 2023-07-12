@@ -1,7 +1,8 @@
-import Calendar from '@/components/calendar'
-import styles from './page.module.css'
+import Year from "@/components/year";
+
+
 
 export default function Home() {
   
-  return <Calendar></Calendar>
+  return <Year />
 }

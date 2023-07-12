@@ -1,4 +1,4 @@
-import { getNumberOfDays } from "@/utils/date";
+import { getNumberOfDays, isToday } from "@/utils/date";
 import "./main.css";
 import { simpleRange } from "@/utils/array";
 
@@ -15,9 +15,9 @@ export default function Month({ year, month }) {
     "September",
     "October",
     "November",
-    "December"
+    "December",
   ];
-  
+
   const currentMonth = months[month];
   const numberOfDays = getNumberOfDays(year, month);
 
@@ -27,7 +27,9 @@ export default function Month({ year, month }) {
         <ul>
           <li className="prev">&#10094;</li>
           <li className="next">&#10095;</li>
-          <li>{currentMonth} {year}</li>
+          <li>
+            {currentMonth} {year}
+          </li>
         </ul>
       </div>
 
@@ -42,7 +44,11 @@ export default function Month({ year, month }) {
       </ul>
 
       <ul className="days">
-        {simpleRange(numberOfDays).map(day => <li key={day}>{day + 1}</li>)}
+        {simpleRange(numberOfDays).map((day) => (
+          <li key={day}>
+            {isToday(year, month, day + 1) ? <span className="today">{day + 1}</span> : <span>{day + 1}</span>}
+          </li>
+        ))}
       </ul>
     </>
   );

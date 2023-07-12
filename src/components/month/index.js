@@ -28,7 +28,7 @@ export default function Month({ year, month }) {
           <li className="prev">&#10094;</li>
           <li className="next">&#10095;</li>
           <li>
-            {currentMonth} {year}
+            {currentMonth}
           </li>
         </ul>
       </div>

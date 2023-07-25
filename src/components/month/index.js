@@ -46,7 +46,8 @@ export default function Month({ year, month }) {
       <ul className="days">
         {simpleRange(numberOfDays).map((day) => (
           <li key={day}>
-            {isToday(year, month, day + 1) ? <span className="today">{day + 1}</span> : <span>{day + 1}</span>}
+            {/* inline style just to exemplify gradient habit's styling  */}
+            {isToday(year, month, day + 1) ? <span className="today" style={{ background: "rgba(188, 26, 26, 0.2)" }}>{day + 1}</span> : <span>{day + 1}</span>}
           </li>
         ))}
         {/* fill in spaces for layout */}

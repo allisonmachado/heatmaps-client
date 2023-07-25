@@ -49,6 +49,12 @@ export default function Month({ year, month }) {
             {isToday(year, month, day + 1) ? <span className="today">{day + 1}</span> : <span>{day + 1}</span>}
           </li>
         ))}
+        {/* fill in spaces for layout */}
+        {simpleRange(31 - numberOfDays).map((day) => (
+          <li key={day + numberOfDays}>
+            <span>&nbsp;</span>
+          </li>
+        ))}
       </ul>
     </>
   );

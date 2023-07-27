@@ -1,6 +1,9 @@
+import { findUserHabits } from "@/data/habits";
 import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+  const habits = await findUserHabits();
+
   return (
     <>
       <div className="row">
@@ -13,26 +16,21 @@ export default function Home() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Study Software Development</td>
-                <td>
-                  <Link href="/habits/1">
-                    <button type="button" className="btn btn-outline-secondary">
-                      View
-                    </button>
-                  </Link>
-                </td>
-              </tr>
-              <tr>
-                <td>Study Software Development</td>
-                <td>
-                  <Link href="/habits/2">
-                    <button type="button" className="btn btn-outline-secondary">
-                      View
-                    </button>
-                  </Link>
-                </td>
-              </tr>
+              {habits.map((h) => (
+                <tr key={h.id}>
+                  <td>{h.title}</td>
+                  <td>
+                    <Link href={`/habits/${h.id}`}>
+                      <button
+                        type="button"
+                        className="btn btn-outline-secondary"
+                      >
+                        View
+                      </button>
+                    </Link>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

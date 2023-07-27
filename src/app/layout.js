@@ -2,6 +2,8 @@ import "./globals.css";
 import "bootstrap/dist/css/bootstrap.css";
 import { Inter } from "next/font/google";
 
+import Navbar from "@/components/navbar";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -14,11 +16,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <header>
-          <nav className="navbar navbar-expand-md navbar-light bg-light">
-            <a className="navbar-brand" href="#">
-              {metadata.title}
-            </a>
-          </nav>
+          <Navbar title={metadata.title} />
         </header>
         <div className="container-fluid">{children}</div>
         <footer className="mt-4 py-2 bg-light text-center">

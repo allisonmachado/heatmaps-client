@@ -8,7 +8,7 @@ export default async function Home() {
     <>
       <div className="row">
         <div className="col">
-          <table className="table table-hover">
+          {habits.length ? <table className="table table-hover">
             <thead>
               <tr>
                 <th scope="col">Habit</th>
@@ -32,7 +32,7 @@ export default async function Home() {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table> : <p>No habits created</p>}
         </div>
       </div>
       <div className="row">

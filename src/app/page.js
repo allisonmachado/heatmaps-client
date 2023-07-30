@@ -8,31 +8,14 @@ export default async function Home() {
     <>
       <div className="row">
         <div className="col">
-          {habits.length ? <table className="table table-hover">
-            <thead>
-              <tr>
-                <th scope="col">Habit</th>
-                <th scope="col">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {habits.map((h) => (
-                <tr key={h.id}>
-                  <td>{h.title}</td>
-                  <td>
-                    <Link href={`/habits/${h.id}`}>
-                      <button
-                        type="button"
-                        className="btn btn-outline-secondary"
-                      >
-                        View
-                      </button>
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table> : <p>No habits created</p>}
+          {habits.length ? <>
+          <h1>Habits:</h1>
+          <ul className="list-group">
+            {habits.map(h => (<Link key={h.id} href={`/habits/${h.id}`} className="list-group-item list-group-item-action">
+              {h.title}
+            </Link>))}
+          </ul>
+          </> : <p>No habits created</p>}
         </div>
       </div>
       <div className="row">

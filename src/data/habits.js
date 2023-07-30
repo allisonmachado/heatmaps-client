@@ -7,7 +7,7 @@ const DYNAMIC_DATA_FETCHING_OPTIONS = {
 
 export async function findUserHabits() {
   const cookieStore = cookies();
-  const { value: authToken } = cookieStore.get('auth-token');
+  const { value: authToken } = cookieStore.get('auth-token') ?? {};
 
   const myHeaders = new Headers();
   

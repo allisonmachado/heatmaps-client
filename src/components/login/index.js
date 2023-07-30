@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [displayError, setDisplayError] = useState(false);
+  const router = useRouter();
 
   const login = ({ email, password }) => {
     setDisplayError(false);
@@ -29,11 +31,11 @@ export default function LoginForm() {
       .then((result) => {
         if (!result.accessToken) {
           setDisplayError(true);
+          return;
         }
-        console.log('Logged in successfully');
-        console.log(result.accessToken);
+        router.push("/");
       })
-      .catch((error) => setDisplayError(true));
+      .catch((_err) => setDisplayError(true));
   };
 
   const handleSubmit = (e) => {
@@ -47,9 +49,11 @@ export default function LoginForm() {
 
   return (
     <>
-      {displayError && <div class="alert alert-warning" role="alert">
-        Invalid username or password
-      </div>}
+      {displayError && (
+        <div className="alert alert-warning" role="alert">
+          Invalid username or password
+        </div>
+      )}
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="usernameInput" className="form-label">

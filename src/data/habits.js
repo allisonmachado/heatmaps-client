@@ -1,9 +1,7 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation';
+import { DYNAMIC_DATA_FETCHING_OPTIONS } from './utils';
 
-const DYNAMIC_DATA_FETCHING_OPTIONS = {
-  cache: 'no-store',
-}
 
 export async function findUserHabits() {
   const cookieStore = cookies();

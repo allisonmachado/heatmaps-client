@@ -33,7 +33,7 @@ export default function LoginForm() {
           setDisplayError(true);
           return;
         }
-        router.push("/");
+        window.location = "/";
       })
       .catch((_err) => setDisplayError(true));
   };

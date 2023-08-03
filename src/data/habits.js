@@ -23,8 +23,40 @@ export async function findUserHabits() {
   const res = await fetch("http://localhost:8000/habits/", requestOptions)
   
   if (!res.ok) {
-    redirect('/login');
+    return redirect('/login');
   }
  
   return res.json();
+}
+
+export async function createHabit(habit) {
+  const cookieStore = cookies();
+  const { value: authToken } = cookieStore.get('auth-token') ?? {};
+
+  const myHeaders = new Headers();
+  
+  myHeaders.append(
+    "Authorization",
+    `Bearer ${authToken}`
+  );
+
+  myHeaders.append(
+    "Content-Type",
+    `application/json`
+  );
+
+  var requestOptions = {
+    ...DYNAMIC_DATA_FETCHING_OPTIONS,
+    method: "POST",
+    headers: myHeaders,
+    body: JSON.stringify(habit)
+  };
+
+  const res = await fetch("http://localhost:8000/habits/", requestOptions);
+
+  if (res.status === 401) {
+    return redirect('/login');
+  }
+ 
+  return res;
 }

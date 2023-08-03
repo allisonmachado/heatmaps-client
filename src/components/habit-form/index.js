@@ -3,15 +3,52 @@
 import { useState } from "react";
 
 export default function HabitForm({ habit }) {
-  const isCreateForm = !!habit;
+  const isCreateForm = !habit;
 
   const [title, setTitle] = useState(habit?.title ?? "");
   const [color, setColor] = useState(habit?.color ? `#${habit.color}` : "");
   const [type, setType] = useState(habit?.type ?? "");
-  const [displayError, setDisplayError] = useState(false);
 
-  const upsertHabit = (habit) => {
-    console.log('upsertHabit', habit);
+  const [displayError, setDisplayError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("Please, check the mandatory input fields and corresponding types.");
+
+  const upsertHabit = ({
+    title, color, type
+  }) => {
+    setDisplayError(false);
+    const myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+
+    const body = JSON.stringify({
+      title,
+      color: color.slice(1),
+      type,
+    });
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body,
+      redirect: 'follow',
+    };
+
+    const path = isCreateForm ? "/api/habits" : "/api/habits/:id"
+
+    fetch(path, requestOptions)
+      .then((response) => {
+        if (response.redirected) {          
+          const redirectUrl = response.url;
+
+          window.location.href = redirectUrl;
+        }
+
+        return response.json()
+      })
+      .then((result) => {
+        console.log({result});
+      })
+      .catch((_err) => setDisplayError(true));
   }
 
   const handleSubmit = (e) => {
@@ -32,7 +69,7 @@ export default function HabitForm({ habit }) {
     <>
       {displayError && (
         <div className="alert alert-warning" role="alert">
-          Please, check the mandatory input fields and corresponding types.
+          {errorMessage}
         </div>
       )}
       <form onSubmit={handleSubmit}>

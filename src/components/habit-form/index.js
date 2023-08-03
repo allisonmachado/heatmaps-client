@@ -6,7 +6,7 @@ export default function HabitForm({ habit }) {
   const isCreateForm = !habit;
 
   const [title, setTitle] = useState(habit?.title ?? "");
-  const [color, setColor] = useState(habit?.color ? `#${habit.color}` : "");
+  const [color, setColor] = useState(habit?.color ? `#${habit.color}` : "#000000");
   const [type, setType] = useState(habit?.type ?? "");
 
   const [displayError, setDisplayError] = useState(false);
@@ -43,18 +43,26 @@ export default function HabitForm({ habit }) {
           window.location.href = redirectUrl;
         }
 
+        if (response.status >= 200 && response.status < 300) {
+          window.location.href = '/';
+        }
+
         return response.json()
       })
       .then((result) => {
-        console.log({result});
+        setDisplayError(true);
+        setErrorMessage(result.message.join('; '));
       })
-      .catch((_err) => setDisplayError(true));
+      .catch((_err) => {
+        setDisplayError(true);
+        setDisplayError("We're having problems communicating with our backend services. Please, try again later");
+      });
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validate if the mandatory fields are filled
+
     if (!title || !type || !color) {
       setDisplayError(true);
       return;

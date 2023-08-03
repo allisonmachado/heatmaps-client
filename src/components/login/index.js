@@ -1,13 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [displayError, setDisplayError] = useState(false);
-  const router = useRouter();
 
   const login = ({ email, password }) => {
     setDisplayError(false);

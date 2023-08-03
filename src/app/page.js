@@ -20,9 +20,9 @@ export default async function Home() {
       </div>
       <div className="row">
         <div className="col">
-          <button type="button" className="btn btn-primary">
+          <Link href='/habits/new' type="button" className="btn btn-primary">
             New Habit
-          </button>
+          </Link>
         </div>
       </div>
     </>

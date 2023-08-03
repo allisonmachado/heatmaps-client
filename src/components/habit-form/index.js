@@ -3,11 +3,10 @@
 import { useState } from "react";
 
 export default function HabitForm({ habit }) {
-  const isCreate = !!habit;
-  const isEdit = !isCreate;
+  const isCreateForm = !!habit;
 
   const [title, setTitle] = useState(habit?.title ?? "");
-  const [color, setColor] = useState(habit?.color ?? "777000");
+  const [color, setColor] = useState(habit?.color ? `#${habit.color}` : "");
   const [type, setType] = useState(habit?.type ?? "");
   const [displayError, setDisplayError] = useState(false);
 
@@ -19,7 +18,7 @@ export default function HabitForm({ habit }) {
     e.preventDefault();
 
     // Validate if the mandatory fields are filled
-    if (!title || !type) {
+    if (!title || !type || !color) {
       setDisplayError(true);
       return;
     }
@@ -62,6 +61,17 @@ export default function HabitForm({ habit }) {
               <option value="Timer">Timer</option>
               <option value="Binary">Binary</option>
             </select>
+          </label>
+        </div>
+        <div>
+          <label htmlFor="colorPicker" className="form-label">
+            Color:
+            <input
+              type="color"
+              id="colorPicker"
+              value={color}
+              onChange={(e) => setColor(e.target.value)}
+            />
           </label>
         </div>
         <button type="submit" className="btn btn-primary">

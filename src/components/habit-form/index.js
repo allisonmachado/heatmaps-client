@@ -18,6 +18,12 @@ export default function HabitForm({ habit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Validate if the mandatory fields are filled
+    if (!title || !type) {
+      setDisplayError(true);
+      return;
+    }
+
     upsertHabit({
       title, color, type
     });
@@ -43,7 +49,21 @@ export default function HabitForm({ habit }) {
             />
           </label>
         </div>
-        {/* type input here */}
+        <div>
+          <label htmlFor="typeSelect" className="form-label">
+            Type:
+            <select
+              id="typeSelect"
+              className="form-control"
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+            >
+              <option value="">Select a type</option>
+              <option value="Timer">Timer</option>
+              <option value="Binary">Binary</option>
+            </select>
+          </label>
+        </div>
         <button type="submit" className="btn btn-primary">
           Submit
         </button>

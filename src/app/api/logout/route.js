@@ -1,13 +1,13 @@
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export async function GET() {
   cookies().delete({
-    name: 'auth-token',
+    name: "auth-token",
     httpOnly: true,
-    path: '/',
+    path: "/",
     value: undefined,
   });
-  
-  redirect('/login');
+
+  redirect("/login");
 }

@@ -7,7 +7,11 @@ export default function Habits({ params }) {
       <Year habitId={params.id} />
       <div className="row">
         <div className="col">
-          <Link href={`/habits/${params.id}/delete`} type="button" className="btn btn-danger">
+          <Link
+            href={`/habits/${params.id}/delete`}
+            type="button"
+            className="btn btn-danger"
+          >
             Delete Habit
           </Link>
         </div>

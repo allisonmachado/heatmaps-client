@@ -3,7 +3,7 @@ import "./main.css";
 import { cookies } from "next/headers";
 
 export default async function Navbar({ title }) {
-  const authToken = cookies().get('auth-token')?.value
+  const authToken = cookies().get("auth-token")?.value;
 
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">

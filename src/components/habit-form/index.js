@@ -6,15 +6,17 @@ export default function HabitForm({ habit }) {
   const isCreateForm = !habit;
 
   const [title, setTitle] = useState(habit?.title ?? "");
-  const [color, setColor] = useState(habit?.color ? `#${habit.color}` : "#000000");
+  const [color, setColor] = useState(
+    habit?.color ? `#${habit.color}` : "#000000",
+  );
   const [type, setType] = useState(habit?.type ?? "");
 
   const [displayError, setDisplayError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("Please, check the mandatory input fields and corresponding types.");
+  const [errorMessage, setErrorMessage] = useState(
+    "Please, check the mandatory input fields and corresponding types.",
+  );
 
-  const upsertHabit = ({
-    title, color, type
-  }) => {
+  const upsertHabit = ({ title, color, type }) => {
     setDisplayError(false);
     const myHeaders = new Headers();
 
@@ -30,38 +32,39 @@ export default function HabitForm({ habit }) {
       method: "POST",
       headers: myHeaders,
       body,
-      redirect: 'follow',
+      redirect: "follow",
     };
 
-    const path = isCreateForm ? "/api/habits" : "/api/habits/:id"
+    const path = isCreateForm ? "/api/habits" : "/api/habits/:id";
 
     fetch(path, requestOptions)
       .then((response) => {
-        if (response.redirected) {          
+        if (response.redirected) {
           const redirectUrl = response.url;
 
           window.location.href = redirectUrl;
         }
 
         if (response.status >= 200 && response.status < 300) {
-          window.location.href = '/';
+          window.location.href = "/";
         }
 
-        return response.json()
+        return response.json();
       })
       .then((result) => {
         setDisplayError(true);
-        setErrorMessage(result.message.join('; '));
+        setErrorMessage(result.message.join("; "));
       })
       .catch((_err) => {
         setDisplayError(true);
-        setDisplayError("We're having problems communicating with our backend services. Please, try again later");
+        setDisplayError(
+          "We're having problems communicating with our backend services. Please, try again later",
+        );
       });
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
 
     if (!title || !type || !color) {
       setDisplayError(true);
@@ -69,7 +72,9 @@ export default function HabitForm({ habit }) {
     }
 
     upsertHabit({
-      title, color, type
+      title,
+      color,
+      type,
     });
   };
 

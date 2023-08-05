@@ -1,12 +1,11 @@
-import { createHabit } from '@/data/habits';
+import { createHabit } from "@/data/habits";
 // import { NextResponse } from 'next/server';
-
 
 /**
  * Create Habit Proxy
  */
 export async function POST(request) {
-  const body = await request.json()
+  const body = await request.json();
 
-  return createHabit(body)
+  return createHabit(body);
 }

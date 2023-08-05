@@ -2,7 +2,7 @@ import { DYNAMIC_DATA_FETCHING_OPTIONS } from "./utils";
 
 export async function loginRequest({ email, password }) {
   const myHeaders = new Headers();
-  
+
   myHeaders.append("Content-Type", "application/json");
   const body = JSON.stringify({
     email,

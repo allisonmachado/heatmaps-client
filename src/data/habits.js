@@ -60,3 +60,30 @@ export async function createHabit(habit) {
  
   return res;
 }
+
+export async function deleteHabit(habitId) {
+  const cookieStore = cookies();
+  const { value: authToken } = cookieStore.get('auth-token') ?? {};
+
+  const myHeaders = new Headers();
+  
+  myHeaders.append(
+    "Authorization",
+    `Bearer ${authToken}`
+  );
+
+  var requestOptions = {
+    ...DYNAMIC_DATA_FETCHING_OPTIONS,
+    method: "DELETE",
+    headers: myHeaders
+  };
+
+  const res = await fetch("http://localhost:8000/habits/" + habitId, requestOptions);
+
+  if (res.status === 401) {
+    return redirect('/login');
+  }
+ 
+  return res;
+}
+

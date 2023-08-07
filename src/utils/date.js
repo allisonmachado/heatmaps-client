@@ -17,3 +17,22 @@ export function isToday(year, month, day) {
     date.getFullYear() === today.getFullYear()
   );
 }
+
+export function getFirstAndLastDayOfYear(yearDiff = 0) {
+  const today = new Date();
+  const currentYear = today.getFullYear() + yearDiff;
+
+  // First day of the year
+  const firstDayOfYear = new Date(currentYear, 0, 1);
+  const formattedFirstDay = firstDayOfYear.toISOString().slice(0, 10);
+
+  // Last day of the year
+  const lastDayOfYear = new Date(currentYear, 11, 31);
+  const formattedLastDay = lastDayOfYear.toISOString().slice(0, 10);
+
+  return {
+    currentYear,
+    firstDayOfYear: formattedFirstDay,
+    lastDayOfYear: formattedLastDay,
+  };
+}

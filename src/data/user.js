@@ -1,4 +1,4 @@
-import { DYNAMIC_DATA_FETCHING_OPTIONS } from "./utils";
+import { DYNAMIC_DATA_FETCHING_OPTIONS } from "@/utils/constants";
 
 export async function loginRequest({ email, password }) {
   const myHeaders = new Headers();

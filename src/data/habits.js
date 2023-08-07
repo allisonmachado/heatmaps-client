@@ -1,6 +1,7 @@
+import { DYNAMIC_DATA_FETCHING_OPTIONS } from "@/utils/constants";
+import { getUrlFor } from "@/utils/url";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { DYNAMIC_DATA_FETCHING_OPTIONS } from "./utils";
 
 export async function findUserHabits() {
   const cookieStore = cookies();
@@ -16,9 +17,9 @@ export async function findUserHabits() {
     headers: myHeaders,
   };
 
-  const res = await fetch("http://localhost:8000/habits/", requestOptions);
+  const res = await fetch(getUrlFor("habits"), requestOptions);
 
-  if (!res.ok) {
+  if (res.status === 401) {
     return redirect("/login");
   }
 
@@ -42,7 +43,7 @@ export async function createHabit(habit) {
     body: JSON.stringify(habit),
   };
 
-  const res = await fetch("http://localhost:8000/habits/", requestOptions);
+  const res = await fetch(getUrlFor("habits"), requestOptions);
 
   if (res.status === 401) {
     return redirect("/login");
@@ -65,14 +66,39 @@ export async function deleteHabit(habitId) {
     headers: myHeaders,
   };
 
-  const res = await fetch(
-    "http://localhost:8000/habits/" + habitId,
-    requestOptions,
-  );
+  const res = await fetch(getUrlFor(`habits/${habitId}`), requestOptions);
 
   if (res.status === 401) {
     return redirect("/login");
   }
 
   return res;
+}
+
+export async function findUserHabitLogs({ habitId, startDate, endDate }) {
+  const cookieStore = cookies();
+  const { value: authToken } = cookieStore.get("auth-token") ?? {};
+
+  const myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${authToken}`);
+
+  var requestOptions = {
+    ...DYNAMIC_DATA_FETCHING_OPTIONS,
+    method: "GET",
+    headers: myHeaders,
+  };
+
+  const res = await fetch(
+    getUrlFor(`habits/${habitId}/logs`, [
+      ["startDate", startDate],
+      ["endDate", endDate],
+    ]),
+    requestOptions
+  );
+
+  if (res.status === 401) {
+    return redirect("/login");
+  }
+
+  return res.json();
 }

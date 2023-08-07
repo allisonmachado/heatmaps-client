@@ -1,28 +1,39 @@
 import { simpleRange } from "@/utils/array";
 import Month from "../month";
 import "./main.css";
-import { findUserHabitLogs } from "@/data/habits";
+import { findUserHabit, findUserHabitLogs } from "@/data/habits";
 import { getFirstAndLastDayOfYear } from "@/utils/date";
 
 const { firstDayOfYear, lastDayOfYear, currentYear } =
   getFirstAndLastDayOfYear();
 
 export default async function Year({ habitId }) {
+  const habit = await findUserHabit(habitId);
   const habitLogs = await findUserHabitLogs({
     habitId,
     startDate: firstDayOfYear,
     endDate: lastDayOfYear,
   });
 
-  console.log(">>", habitLogs);
-
   return (
-    <div className="row">
-      {new simpleRange(12).map((month) => (
-        <div key={month} className="col-xs-12 col-sm-6 col-lg-4 col-xl-2 mb-4">
-          <Month year={currentYear} month={month} />
+    <>
+      <div className="row">
+        <div className="col">
+          <h1>
+            {habit.title} - {habit.type} Habit
+          </h1>
         </div>
-      ))}
-    </div>
+      </div>
+      <div className="row">
+        {new simpleRange(12).map((month) => (
+          <div
+            key={month}
+            className="col-xs-12 col-sm-6 col-lg-4 col-xl-2 mb-4"
+          >
+            <Month year={currentYear} month={month} />
+          </div>
+        ))}
+      </div>
+    </>
   );
 }

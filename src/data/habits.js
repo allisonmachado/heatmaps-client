@@ -26,6 +26,12 @@ export async function findUserHabits() {
   return res.json();
 }
 
+export async function findUserHabit(id) {
+  const habitList = await findUserHabits();
+
+  return habitList.filter((h) => h.id == id)?.pop();
+}
+
 export async function createHabit(habit) {
   const cookieStore = cookies();
   const { value: authToken } = cookieStore.get("auth-token") ?? {};

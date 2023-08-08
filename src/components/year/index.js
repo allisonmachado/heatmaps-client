@@ -30,7 +30,12 @@ export default async function Year({ habitId }) {
             key={month}
             className="col-xs-12 col-sm-6 col-lg-4 col-xl-2 mb-4"
           >
-            <Month year={currentYear} month={month} />
+            <Month
+              year={currentYear}
+              month={month}
+              habitType={habit.type}
+              habitLogs={habitLogs}
+            />
           </div>
         ))}
       </div>

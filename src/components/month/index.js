@@ -1,8 +1,9 @@
-import { getNumberOfDays, isToday } from "@/utils/date";
+import { formatDateToYYYYMMDD, getNumberOfDays, isToday } from "@/utils/date";
 import "./main.css";
 import { simpleRange } from "@/utils/array";
+import Day from "./day";
 
-export default function Month({ year, month }) {
+export default function Month({ year, month, habitType, habitLogs }) {
   const months = [
     "January",
     "February",
@@ -20,6 +21,29 @@ export default function Month({ year, month }) {
 
   const currentMonth = months[month];
   const numberOfDays = getNumberOfDays(year, month);
+
+  const extractHabitLog = (habitType, habitLogs, dateKey) => {
+    const value = habitLogs[dateKey];
+
+    if (!value) {
+      return {
+        value: null,
+        max: 0,
+      };
+    }
+
+    if (habitType === "Binary") {
+      return {
+        value: true,
+        max: 0,
+      };
+    }
+
+    return {
+      value: habitLogs[dateKey].timerValue,
+      max: habitLogs[dateKey].maxTimer.value,
+    };
+  };
 
   return (
     <>
@@ -42,21 +66,30 @@ export default function Month({ year, month }) {
       </ul>
 
       <ul className="days">
-        {simpleRange(numberOfDays).map((day) => (
-          <li key={day}>
-            {/* inline style just to exemplify gradient habit's styling  */}
-            {isToday(year, month, day + 1) ? (
-              <span
-                className="today"
-                style={{ background: "rgba(188, 26, 26, 0.2)" }}
-              >
-                {day + 1}
-              </span>
-            ) : (
-              <span>{day + 1}</span>
-            )}
-          </li>
-        ))}
+        {simpleRange(numberOfDays).map((day) => {
+          const adjustedDay = day + 1;
+          const dateValue = new Date(year, month, adjustedDay);
+          const dateKey = formatDateToYYYYMMDD(dateValue);
+
+          return (
+            <li key={day}>
+              {isToday(year, month, adjustedDay) ? (
+                <span
+                  className="today"
+                  style={{ background: "rgba(188, 26, 26, 0.2)" }}
+                >
+                  {adjustedDay}
+                </span>
+              ) : (
+                <Day
+                  number={adjustedDay}
+                  habitLog={extractHabitLog(habitType, habitLogs, dateKey)}
+                  habitType={habitType}
+                />
+              )}
+            </li>
+          );
+        })}
         {/* fill in spaces for layout */}
         {simpleRange(31 - numberOfDays).map((day) => (
           <li key={day + numberOfDays}>

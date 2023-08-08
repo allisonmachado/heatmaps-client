@@ -1,4 +1,5 @@
 import { DYNAMIC_DATA_FETCHING_OPTIONS } from "@/utils/constants";
+import { transformHabitsArrayToObject } from "@/utils/habits";
 import { getUrlFor } from "@/utils/url";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -106,5 +107,7 @@ export async function findUserHabitLogs({ habitId, startDate, endDate }) {
     return redirect("/login");
   }
 
-  return res.json();
+  const habits = await res.json();
+
+  return transformHabitsArrayToObject(habits);
 }

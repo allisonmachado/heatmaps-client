@@ -33,8 +33,24 @@ export default function Habits({ params, searchParams }) {
       />
 
       <div className="row">
-        <div className="col text-start">Left column content</div>
-        <div className="col text-end">Right column content</div>
+        <div className="col text-start">
+          <Link
+            href={`?year=${currentYear - 1}`}
+            type="button"
+            className="btn btn-primary"
+          >
+            Previous
+          </Link>
+        </div>
+        <div className="col text-end">
+          <Link
+            href={`?year=${currentYear + 1}`}
+            type="button"
+            className="btn btn-primary"
+          >
+            Next
+          </Link>
+        </div>
       </div>
     </>
   );

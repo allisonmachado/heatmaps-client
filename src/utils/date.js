@@ -18,9 +18,8 @@ export function isToday(year, month, day) {
   );
 }
 
-export function getFirstAndLastDayOfYear(yearDiff = 0) {
-  const today = new Date();
-  const currentYear = today.getFullYear() + yearDiff;
+export function getFirstAndLastDayOfYear(targetYear) {
+  const currentYear = targetYear ?? new Date().getFullYear();
 
   // First day of the year
   const firstDayOfYear = new Date(currentYear, 0, 1);

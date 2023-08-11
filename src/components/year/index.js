@@ -2,12 +2,13 @@ import { simpleRange } from "@/utils/array";
 import Month from "../month";
 import "./main.css";
 import { findUserHabit, findUserHabitLogs } from "@/data/habits";
-import { getFirstAndLastDayOfYear } from "@/utils/date";
 
-const { firstDayOfYear, lastDayOfYear, currentYear } =
-  getFirstAndLastDayOfYear();
-
-export default async function Year({ habitId }) {
+export default async function Year({
+  habitId,
+  firstDayOfYear,
+  lastDayOfYear,
+  currentYear,
+}) {
   const habit = await findUserHabit(habitId);
   const habitLogs = await findUserHabitLogs({
     habitId,
@@ -20,7 +21,7 @@ export default async function Year({ habitId }) {
       <div className="row">
         <div className="col">
           <h1>
-            {habit.title} - {habit.type} Habit
+            {habit.title}@{currentYear} - {habit.type} Habit
           </h1>
         </div>
       </div>

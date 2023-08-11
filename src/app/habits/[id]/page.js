@@ -31,16 +31,10 @@ export default function Habits({ params, searchParams }) {
         firstDayOfYear={firstDayOfYear}
         lastDayOfYear={lastDayOfYear}
       />
+
       <div className="row">
-        <div className="col">
-          <Link
-            href={`/habits/${params.id}/delete`}
-            type="button"
-            className="btn btn-danger"
-          >
-            Delete Habit
-          </Link>
-        </div>
+        <div className="col text-start">Left column content</div>
+        <div className="col text-end">Right column content</div>
       </div>
     </>
   );

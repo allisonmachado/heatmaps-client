@@ -2,6 +2,7 @@ import { simpleRange } from "@/utils/array";
 import Month from "../month";
 import "./main.css";
 import { findUserHabit, findUserHabitLogs } from "@/data/habits";
+import Link from "next/link";
 
 export default async function Year({
   habitId,
@@ -19,10 +20,24 @@ export default async function Year({
   return (
     <>
       <div className="row">
+        <div className="col text-start">
+          <h1>{habit.title}</h1>
+        </div>
+        <div className="col text-end">
+          <Link
+            href={`/habits/${habitId}/delete`}
+            type="button"
+            className="btn btn-danger"
+          >
+            Delete
+          </Link>
+        </div>
+      </div>
+      <div className="row">
         <div className="col">
-          <h1>
-            {habit.title}@{currentYear} - {habit.type} Habit
-          </h1>
+          <p>
+            {habit.type} Habit - Year {currentYear}
+          </p>
         </div>
       </div>
       <div className="row">

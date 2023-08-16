@@ -114,25 +114,13 @@ export async function findUserHabitLogs({ habitId, startDate, endDate }) {
 }
 
 export async function logUserHabit(log, habitId) {
-  const cookieStore = cookies();
-  const { value: authToken } = cookieStore.get("auth-token") ?? {};
-
-  const myHeaders = new Headers();
-
-  myHeaders.append("Authorization", `Bearer ${authToken}`);
-
-  myHeaders.append("Content-Type", `application/json`);
-
-  var requestOptions = {
-    ...DYNAMIC_DATA_FETCHING_OPTIONS,
+  const requestOptions = getAuthRequestOptions({
     method: "POST",
-    headers: myHeaders,
-    body: JSON.stringify(log),
-  };
+    body: log,
+  });
 
-  console.log({ requestOptions });
-
-  const res = await fetch(getUrlFor(`habits/${habitId}/logs`), requestOptions);
+  const requestPath = getUrlFor(`habits/${habitId}/logs`);
+  const res = await fetch(requestPath, requestOptions);
 
   if (res.status === 401) {
     return redirect("/login");

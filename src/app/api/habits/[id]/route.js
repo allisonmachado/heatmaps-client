@@ -1,5 +1,4 @@
 import { deleteHabit } from "@/data/habits";
-import { NextResponse } from "next/server";
 
 /**
  * Delete Habit Proxy

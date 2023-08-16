@@ -1,5 +1,4 @@
 import { createHabit } from "@/data/habits";
-// import { NextResponse } from 'next/server';
 
 /**
  * Create Habit Proxy

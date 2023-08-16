@@ -1,3 +1,4 @@
+import { getAuthRequestOptions } from "@/utils/auth";
 import { DYNAMIC_DATA_FETCHING_OPTIONS } from "@/utils/constants";
 import { transformHabitsArrayToObject } from "@/utils/habits";
 import { getUrlFor } from "@/utils/url";
@@ -110,4 +111,32 @@ export async function findUserHabitLogs({ habitId, startDate, endDate }) {
   const habits = await res.json();
 
   return transformHabitsArrayToObject(habits);
+}
+
+export async function logUserHabit(log, habitId) {
+  const cookieStore = cookies();
+  const { value: authToken } = cookieStore.get("auth-token") ?? {};
+
+  const myHeaders = new Headers();
+
+  myHeaders.append("Authorization", `Bearer ${authToken}`);
+
+  myHeaders.append("Content-Type", `application/json`);
+
+  var requestOptions = {
+    ...DYNAMIC_DATA_FETCHING_OPTIONS,
+    method: "POST",
+    headers: myHeaders,
+    body: JSON.stringify(log),
+  };
+
+  console.log({ requestOptions });
+
+  const res = await fetch(getUrlFor(`habits/${habitId}/logs`), requestOptions);
+
+  if (res.status === 401) {
+    return redirect("/login");
+  }
+
+  return res;
 }

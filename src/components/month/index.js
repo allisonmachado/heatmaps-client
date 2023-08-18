@@ -73,20 +73,12 @@ export default function Month({ year, month, habitType, habitLogs }) {
 
           return (
             <li key={day}>
-              {isToday(year, month, adjustedDay) ? (
-                <span
-                  className="today"
-                  style={{ background: "rgba(188, 26, 26, 0.2)" }}
-                >
-                  {adjustedDay}
-                </span>
-              ) : (
-                <Day
-                  number={adjustedDay}
-                  habitLog={extractHabitLog(habitType, habitLogs, dateKey)}
-                  habitType={habitType}
-                />
-              )}
+              <Day
+                number={adjustedDay}
+                habitLog={extractHabitLog(habitType, habitLogs, dateKey)}
+                habitType={habitType}
+                isToday={isToday(year, month, adjustedDay)}
+              />
             </li>
           );
         })}

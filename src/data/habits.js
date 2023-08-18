@@ -128,3 +128,18 @@ export async function logUserHabit(log, habitId) {
 
   return res;
 }
+
+export async function deleteUserHabitLog(habitId, logId) {
+  const requestOptions = getAuthRequestOptions({
+    method: "DELETE",
+  });
+
+  const requestPath = getUrlFor(`habits/${habitId}/logs/${logId}`);
+  const res = await fetch(requestPath, requestOptions);
+
+  if (res.status === 401) {
+    return redirect("/login");
+  }
+
+  return res;
+}

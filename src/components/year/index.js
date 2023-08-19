@@ -26,7 +26,7 @@ export default async function Year({
         </div>
         <div className="col text-end">
           <Link
-            href={`/habits/${habitId}/delete`}
+            href={`/habits/${habitId}/delete?name=${habit.title}`}
             type="button"
             className="btn btn-danger"
           >

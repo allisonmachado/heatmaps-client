@@ -3,6 +3,10 @@
 import { useState } from "react";
 
 export default function DeleteHabit(props) {
+  const {
+    searchParams: { name: habitName },
+  } = props;
+
   const [displayError, setDisplayError] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -44,7 +48,14 @@ export default function DeleteHabit(props) {
       )}
       <div className="row">
         <div className="col">
-          <h1>Are you sure to delete the habit?</h1>
+          <h1>Delete confirmation</h1>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col">
+          <p>
+            Are you sure you want to delete the habit &quot;{habitName}&quot;?
+          </p>
         </div>
       </div>
       <div className="row">

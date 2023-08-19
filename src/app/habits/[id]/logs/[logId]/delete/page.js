@@ -50,7 +50,9 @@ export default function DeleteHabitLog(props) {
       </div>
       <div className="row">
         <div className="col">
-          <p>Are you sure you want to delete the log from {date}?</p>
+          <p>
+            Are you sure you want to delete the log from &quot;{date}&quot;?
+          </p>
         </div>
       </div>
       <div className="row">

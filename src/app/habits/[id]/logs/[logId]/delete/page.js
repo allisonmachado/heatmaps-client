@@ -12,27 +12,26 @@ export default function DeleteHabitLog(props) {
   const [loading, setLoading] = useState(false);
 
   const deleteHabitLog = ({ habitId, logId }) => {
-    console.log({ habitId, logId });
-    // setLoading(true);
-    // const requestOptions = {
-    //   method: "DELETE",
-    // };
-    // fetch(`/api/habits/${id}`, requestOptions)
-    //   .then((response) => {
-    //     if (response.redirected) {
-    //       const redirectUrl = response.url;
-    //       window.location.href = redirectUrl;
-    //     }
-    //     if (response.status >= 200 && response.status < 300) {
-    //       setLoading(false);
-    //       return (window.location.href = "/");
-    //     }
-    //     setDisplayError(true);
-    //   })
-    //   .catch((_err) => {
-    //     setLoading(false);
-    //     setDisplayError(true);
-    //   });
+    setLoading(true);
+    const requestOptions = {
+      method: "DELETE",
+    };
+    fetch(`/api/habits/${habitId}/logs/${logId}`, requestOptions)
+      .then((response) => {
+        if (response.redirected) {
+          const redirectUrl = response.url;
+          window.location.href = redirectUrl;
+        }
+        if (response.status >= 200 && response.status < 300) {
+          setLoading(false);
+          return (window.location.href = `/habits/${habitId}`);
+        }
+        setDisplayError(true);
+      })
+      .catch((_err) => {
+        setLoading(false);
+        setDisplayError(true);
+      });
   };
 
   return (

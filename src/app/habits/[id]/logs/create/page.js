@@ -1,16 +1,21 @@
 import HabitLogForm from "@/components/habit-log-form";
 
-export default async function NewHabitLog() {
+export default async function NewHabitLog(props) {
+  const {
+    params: { id },
+    searchParams: { date },
+  } = props;
+
   return (
     <>
       <div className="row">
         <div className="col">
-          <h1>New Habit</h1>
+          <h1>Log Day</h1>
         </div>
       </div>
       <div className="row">
         <div>
-          <HabitLogForm />
+          <HabitLogForm habitId={id} date={date} />
         </div>
       </div>
     </>

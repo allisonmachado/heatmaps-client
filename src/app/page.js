@@ -30,7 +30,7 @@ export default async function Home() {
       </div>
       <div className="row">
         <div className="col">
-          <Link href="/habits/new" type="button" className="btn btn-primary">
+          <Link href="/habits/create" type="button" className="btn btn-primary">
             New Habit
           </Link>
         </div>

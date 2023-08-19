@@ -32,7 +32,18 @@ export default function Day({
   const todayClass = isToday ? "today" : "";
 
   if (!habitLog.value) {
-    return <span className={`${todayClass}`}>{addLeadingZero(number)}</span>;
+    return (
+      <span
+        className={`${todayClass}`}
+        onClick={() =>
+          router.push(
+            `/habits/${habitId}/logs/create?date=${date}&habitType=${habitType}`
+          )
+        }
+      >
+        {addLeadingZero(number)}
+      </span>
+    );
   }
 
   if (habitType === "Binary") {

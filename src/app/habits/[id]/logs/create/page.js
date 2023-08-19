@@ -3,7 +3,7 @@ import HabitLogForm from "@/components/habit-log-form";
 export default async function NewHabitLog(props) {
   const {
     params: { id },
-    searchParams: { date },
+    searchParams: { date, habitType },
   } = props;
 
   return (
@@ -15,7 +15,7 @@ export default async function NewHabitLog(props) {
       </div>
       <div className="row">
         <div>
-          <HabitLogForm habitId={id} date={date} />
+          <HabitLogForm habitId={id} date={date} habitType={habitType} />
         </div>
       </div>
     </>

@@ -3,24 +3,71 @@
 import { useState } from "react";
 
 export default function HabitLogForm({ habitId, habitType, date }) {
+  const [timerValue, setTimerValue] = useState(null);
+
   const [displayError, setDisplayError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(
     "Please, check the mandatory input fields and corresponding types."
   );
 
-  const logHabit = (args) => {
-    console.log({ args });
+  const logHabit = ({ habitId, habitType, timerValue, date }) => {
+    setDisplayError(false);
+    const myHeaders = new Headers();
+
+    myHeaders.append("Content-Type", "application/json");
+
+    const body = JSON.stringify({
+      type: habitType,
+      day: date,
+      ...(habitType === "Timer" ? { timerValue } : {}),
+    });
+
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body,
+      redirect: "follow",
+    };
+
+    const path = `/api/habits/${habitId}/logs`;
+
+    fetch(path, requestOptions)
+      .then((response) => {
+        if (response.redirected) {
+          const redirectUrl = response.url;
+
+          window.location.href = redirectUrl;
+        }
+
+        if (response.status >= 200 && response.status < 300) {
+          return (window.location.href = `/habits/${habitId}/`);
+        }
+
+        return response.json();
+      })
+      .then((result) => {
+        if (result?.message) {
+          setDisplayError(true);
+          setErrorMessage(result.message.join("; "));
+        }
+      })
+      .catch((_err) => {
+        setDisplayError(true);
+        setDisplayError(
+          "We're having problems communicating with our backend services. Please, try again later"
+        );
+      });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (false) {
+    if (habitType == "Timer" && !timerValue) {
       setDisplayError(true);
       return;
     }
 
-    logHabit();
+    logHabit({ habitId, habitType, timerValue, date });
   };
 
   return (

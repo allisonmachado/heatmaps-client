@@ -23,10 +23,11 @@ export default function Month({ year, month, habit, habitLogs }) {
   const numberOfDays = getNumberOfDays(year, month);
 
   const extractHabitLog = (habitType, habitLogs, dateKey) => {
-    const value = habitLogs[dateKey];
+    const log = habitLogs[dateKey];
 
-    if (!value) {
+    if (!log) {
       return {
+        id: null,
         value: null,
         max: 0,
       };
@@ -34,14 +35,16 @@ export default function Month({ year, month, habit, habitLogs }) {
 
     if (habitType === "Binary") {
       return {
+        id: log.id,
         value: true,
         max: 0,
       };
     }
 
     return {
-      value: habitLogs[dateKey].timerValue,
-      max: habitLogs[dateKey].maxTimer.value,
+      id: log.id,
+      value: log.timerValue,
+      max: log.maxTimer.value,
     };
   };
 
@@ -75,6 +78,8 @@ export default function Month({ year, month, habit, habitLogs }) {
             <li key={day}>
               <Day
                 number={adjustedDay}
+                date={dateKey}
+                habitId={habit.id}
                 habitLog={extractHabitLog(habit.type, habitLogs, dateKey)}
                 habitType={habit.type}
                 habitColor={habit.color}

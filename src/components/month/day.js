@@ -1,10 +1,18 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+
 export default function Day({
   number,
+  date,
+  habitId,
   habitLog,
   habitType,
   habitColor,
   isToday,
 }) {
+  const router = useRouter();
+
   function convertTimerRGBA(habitColor, habitLog) {
     const red = parseInt(habitColor.substring(0, 2), 16);
     const green = parseInt(habitColor.substring(2, 4), 16);
@@ -29,13 +37,27 @@ export default function Day({
 
   if (habitType === "Binary") {
     return (
-      <span className={`active ${todayClass}`}>{addLeadingZero(number)}</span>
+      <span
+        className={`active ${todayClass}`}
+        onClick={() =>
+          router.push(
+            `/habits/${habitId}/logs/${habitLog.id}/delete?date=${date}`
+          )
+        }
+      >
+        {addLeadingZero(number)}
+      </span>
     );
   }
 
   return (
     <span
       className={`active-timer ${todayClass}`}
+      onClick={() =>
+        router.push(
+          `/habits/${habitId}/logs/${habitLog.id}/delete?date=${date}`
+        )
+      }
       style={{
         background: convertTimerRGBA(habitColor, habitLog),
       }}

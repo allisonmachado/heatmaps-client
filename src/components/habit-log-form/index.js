@@ -19,7 +19,7 @@ export default function HabitLogForm({ habitId, habitType, date }) {
     const body = JSON.stringify({
       type: habitType,
       day: date,
-      ...(habitType === "Timer" ? { timerValue } : {}),
+      ...(habitType === "Timer" ? { timerValue: parseInt(timerValue) } : {}),
     });
 
     const requestOptions = {
@@ -62,7 +62,7 @@ export default function HabitLogForm({ habitId, habitType, date }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (habitType == "Timer" && !timerValue) {
+    if (habitType === "Timer" && !timerValue) {
       setDisplayError(true);
       return;
     }
@@ -83,6 +83,20 @@ export default function HabitLogForm({ habitId, habitType, date }) {
             Confirm tracking date &quot;{date}&quot;?
           </label>
         </div>
+        {habitType === "Timer" && (
+          <div>
+            <label htmlFor="timerInput" className="form-label">
+              *Enter timer value:
+              <input
+                id="timerInput"
+                type="number"
+                value={timerValue}
+                onChange={(e) => setTimerValue(e.target.value)}
+                className="form-control"
+              />
+            </label>
+          </div>
+        )}
         <button type="submit" className="btn btn-primary">
           Yes
         </button>

@@ -11,6 +11,7 @@ export default async function Year({
   currentYear,
 }) {
   const habit = await findUserHabit(habitId);
+
   const habitLogs = await findUserHabitLogs({
     habitId,
     startDate: firstDayOfYear,
@@ -49,7 +50,7 @@ export default async function Year({
             <Month
               year={currentYear}
               month={month}
-              habitType={habit.type}
+              habit={habit}
               habitLogs={habitLogs}
             />
           </div>

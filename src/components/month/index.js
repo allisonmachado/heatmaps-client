@@ -3,7 +3,7 @@ import "./main.css";
 import { simpleRange } from "@/utils/array";
 import Day from "./day";
 
-export default function Month({ year, month, habitType, habitLogs }) {
+export default function Month({ year, month, habit, habitLogs }) {
   const months = [
     "January",
     "February",
@@ -75,8 +75,9 @@ export default function Month({ year, month, habitType, habitLogs }) {
             <li key={day}>
               <Day
                 number={adjustedDay}
-                habitLog={extractHabitLog(habitType, habitLogs, dateKey)}
-                habitType={habitType}
+                habitLog={extractHabitLog(habit.type, habitLogs, dateKey)}
+                habitType={habit.type}
+                habitColor={habit.color}
                 isToday={isToday(year, month, adjustedDay)}
               />
             </li>

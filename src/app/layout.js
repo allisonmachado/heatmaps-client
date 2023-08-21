@@ -15,10 +15,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header>
-          <Navbar title={metadata.title} />
-        </header>
-        <div className="container-fluid">{children}</div>
+        <div className="wrapper">
+          <header>
+            <Navbar title={metadata.title} />
+          </header>
+          <div className="container-fluid">{children}</div>
+        </div>
         <footer className="mt-4 py-2 bg-light text-center">
           <p>&copy; {metadata.description}. All rights reserved.</p>
         </footer>

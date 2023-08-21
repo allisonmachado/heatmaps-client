@@ -6,7 +6,7 @@ import { decode } from "jsonwebtoken";
 export default async function Navbar({ title }) {
   const authToken = cookies().get("auth-token")?.value;
 
-  const { username } = decode(authToken);
+  const userInfo = authToken ? decode(authToken) : {};
 
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -17,7 +17,7 @@ export default async function Navbar({ title }) {
 
         {authToken && (
           <>
-            <span className="nav-item">Hi, {username}</span>
+            <span className="nav-item">Hi, {userInfo.username}</span>
             <a href="/api/logout">
               <span className="navbar-brand">Sign Out</span>
             </a>

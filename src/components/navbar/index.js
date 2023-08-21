@@ -1,9 +1,12 @@
 import Link from "next/link";
 import "./main.css";
 import { cookies } from "next/headers";
+import { decode } from "jsonwebtoken";
 
 export default async function Navbar({ title }) {
   const authToken = cookies().get("auth-token")?.value;
+
+  const { username } = decode(authToken);
 
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -14,7 +17,7 @@ export default async function Navbar({ title }) {
 
         {authToken && (
           <>
-            <span className="nav-item">Hello Allison</span>
+            <span className="nav-item">Hi, {username}</span>
             <a href="/api/logout">
               <span className="navbar-brand">Sign Out</span>
             </a>

@@ -19,7 +19,7 @@ export default function Day({
     const blue = parseInt(habitColor.substring(4, 6), 16);
 
     const rgba = `rgba(${red}, ${green}, ${blue}, ${
-      habitLog.value / habitLog.max
+      habitLog.value / (habitLog.max ? habitLog.max : 1)
     })`;
 
     return rgba;
@@ -55,6 +55,9 @@ export default function Day({
             `/habits/${habitId}/logs/${habitLog.id}/delete?date=${date}`
           )
         }
+        style={{
+          background: convertTimerRGBA(habitColor, habitLog),
+        }}
       >
         {addLeadingZero(number)}
       </span>

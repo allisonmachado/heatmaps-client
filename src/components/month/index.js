@@ -37,7 +37,7 @@ export default function Month({ year, month, habit, habitLogs }) {
       return {
         id: log.id,
         value: true,
-        max: 0,
+        max: log.maxTimer.value,
       };
     }
 

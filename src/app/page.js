@@ -1,3 +1,4 @@
+import BulletPoint from "@/components/bullet-point";
 import { findUserHabits } from "@/data/habits";
 import Link from "next/link";
 
@@ -18,7 +19,7 @@ export default async function Home() {
                     href={`/habits/${h.id}`}
                     className="list-group-item list-group-item-action"
                   >
-                    {h.title}
+                    <BulletPoint color={h.color} /> {h.title}
                   </Link>
                 ))}
               </ul>

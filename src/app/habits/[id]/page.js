@@ -1,5 +1,4 @@
 import Year from "@/components/year";
-import Link from "next/link";
 import Joi from "joi";
 import { getFirstAndLastDayOfYear } from "@/utils/date";
 
@@ -31,27 +30,6 @@ export default function Habits({ params, searchParams }) {
         firstDayOfYear={firstDayOfYear}
         lastDayOfYear={lastDayOfYear}
       />
-
-      <div className="row">
-        <div className="col text-start">
-          <Link
-            href={`?year=${currentYear - 1}`}
-            type="button"
-            className="btn btn-primary"
-          >
-            Previous
-          </Link>
-        </div>
-        <div className="col text-end">
-          <Link
-            href={`?year=${currentYear + 1}`}
-            type="button"
-            className="btn btn-primary"
-          >
-            Next
-          </Link>
-        </div>
-      </div>
     </>
   );
 }

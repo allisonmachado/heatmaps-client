@@ -7,13 +7,13 @@ export default function HabitForm({ habit }) {
 
   const [title, setTitle] = useState(habit?.title ?? "");
   const [color, setColor] = useState(
-    habit?.color ? `#${habit.color}` : "#000000",
+    habit?.color ? `#${habit.color}` : "#000000"
   );
   const [type, setType] = useState(habit?.type ?? "");
 
   const [displayError, setDisplayError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(
-    "Please, check the mandatory input fields and corresponding types.",
+    "Please, check the mandatory input fields and corresponding types."
   );
 
   const upsertHabit = ({ title, color, type }) => {
@@ -23,19 +23,23 @@ export default function HabitForm({ habit }) {
     myHeaders.append("Content-Type", "application/json");
 
     const body = JSON.stringify({
+      ...(isCreateForm ? {} : { id: habit.id }),
       title,
       color: color.slice(1),
       type,
     });
 
-    const requestOptions = {
-      method: "POST",
+    const commonRequestOptions = {
       headers: myHeaders,
       body,
       redirect: "follow",
     };
 
-    const path = isCreateForm ? "/api/habits" : "/api/habits/:id";
+    const requestOptions = isCreateForm
+      ? { ...commonRequestOptions, method: "POST" }
+      : { ...commonRequestOptions, method: "PUT" };
+
+    const path = isCreateForm ? "/api/habits" : `/api/habits/${habit.id}`;
 
     fetch(path, requestOptions)
       .then((response) => {
@@ -58,7 +62,7 @@ export default function HabitForm({ habit }) {
       .catch((_err) => {
         setDisplayError(true);
         setDisplayError(
-          "We're having problems communicating with our backend services. Please, try again later",
+          "We're having problems communicating with our backend services. Please, try again later"
         );
       });
   };

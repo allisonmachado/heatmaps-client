@@ -41,20 +41,12 @@ export async function createHabit(habit) {
 }
 
 export async function deleteHabit(habitId) {
-  const cookieStore = cookies();
-  const { value: authToken } = cookieStore.get("auth-token") ?? {};
-
-  const myHeaders = new Headers();
-
-  myHeaders.append("Authorization", `Bearer ${authToken}`);
-
-  var requestOptions = {
-    ...DYNAMIC_DATA_FETCHING_OPTIONS,
+  const requestOptions = getAuthRequestOptions({
     method: "DELETE",
-    headers: myHeaders,
-  };
+  });
+  const requestPath = getUrlFor(`habits/${habitId}`);
 
-  const res = await fetch(getUrlFor(`habits/${habitId}`), requestOptions);
+  const res = await fetch(requestPath, requestOptions);
 
   if (res.status === 401) {
     return redirect("/login");

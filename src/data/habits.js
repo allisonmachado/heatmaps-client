@@ -1,8 +1,6 @@
 import { getAuthRequestOptions } from "@/utils/auth";
-import { DYNAMIC_DATA_FETCHING_OPTIONS } from "@/utils/constants";
 import { transformHabitsArrayToObject } from "@/utils/habits";
 import { getUrlFor } from "@/utils/url";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function findUserHabits() {
@@ -56,25 +54,14 @@ export async function deleteHabit(habitId) {
 }
 
 export async function findUserHabitLogs({ habitId, startDate, endDate }) {
-  const cookieStore = cookies();
-  const { value: authToken } = cookieStore.get("auth-token") ?? {};
+  const requestOptions = getAuthRequestOptions();
 
-  const myHeaders = new Headers();
-  myHeaders.append("Authorization", `Bearer ${authToken}`);
+  const requestPath = getUrlFor(`habits/${habitId}/logs`, [
+    ["startDate", startDate],
+    ["endDate", endDate],
+  ]);
 
-  var requestOptions = {
-    ...DYNAMIC_DATA_FETCHING_OPTIONS,
-    method: "GET",
-    headers: myHeaders,
-  };
-
-  const res = await fetch(
-    getUrlFor(`habits/${habitId}/logs`, [
-      ["startDate", startDate],
-      ["endDate", endDate],
-    ]),
-    requestOptions
-  );
+  const res = await fetch(requestPath, requestOptions);
 
   if (res.status === 401) {
     return redirect("/login");

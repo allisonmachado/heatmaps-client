@@ -6,20 +6,10 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function findUserHabits() {
-  const cookieStore = cookies();
-  const { value: authToken } = cookieStore.get("auth-token") ?? {};
+  const requestOptions = getAuthRequestOptions();
+  const requestPath = getUrlFor("habits");
 
-  const myHeaders = new Headers();
-
-  myHeaders.append("Authorization", `Bearer ${authToken}`);
-
-  var requestOptions = {
-    ...DYNAMIC_DATA_FETCHING_OPTIONS,
-    method: "GET",
-    headers: myHeaders,
-  };
-
-  const res = await fetch(getUrlFor("habits"), requestOptions);
+  const res = await fetch(requestPath, requestOptions);
 
   if (res.status === 401) {
     return redirect("/login");

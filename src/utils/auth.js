@@ -1,7 +1,10 @@
 import { DYNAMIC_DATA_FETCHING_OPTIONS } from "@/utils/constants";
 import { cookies } from "next/headers";
 
-export function getAuthRequestOptions({ method = "GET", body = undefined }) {
+export function getAuthRequestOptions({
+  method = "GET",
+  body = undefined,
+} = {}) {
   const cookieStore = cookies();
   const { value: authToken } = cookieStore.get("auth-token") ?? {};
 

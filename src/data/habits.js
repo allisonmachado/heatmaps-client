@@ -25,23 +25,13 @@ export async function findUserHabit(id) {
 }
 
 export async function createHabit(habit) {
-  const cookieStore = cookies();
-  const { value: authToken } = cookieStore.get("auth-token") ?? {};
-
-  const myHeaders = new Headers();
-
-  myHeaders.append("Authorization", `Bearer ${authToken}`);
-
-  myHeaders.append("Content-Type", `application/json`);
-
-  var requestOptions = {
-    ...DYNAMIC_DATA_FETCHING_OPTIONS,
+  const requestOptions = getAuthRequestOptions({
     method: "POST",
-    headers: myHeaders,
-    body: JSON.stringify(habit),
-  };
+    body: habit,
+  });
+  const requestPath = getUrlFor("habits");
 
-  const res = await fetch(getUrlFor("habits"), requestOptions);
+  const res = await fetch(requestPath, requestOptions);
 
   if (res.status === 401) {
     return redirect("/login");

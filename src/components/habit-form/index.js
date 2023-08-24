@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function HabitForm({ habit }) {
   const isCreateForm = !habit;
@@ -10,16 +10,24 @@ export default function HabitForm({ habit }) {
     habit?.color ? `#${habit.color}` : "#000000"
   );
   const [type, setType] = useState(habit?.type ?? "");
+  const [loading, setLoading] = useState(false); // Added loading state
 
   const [displayError, setDisplayError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(
     "Please, check the mandatory input fields and corresponding types."
   );
 
-  const upsertHabit = ({ title, color, type }) => {
-    setDisplayError(false);
-    const myHeaders = new Headers();
+  useEffect(() => {
+    if (loading) {
+      setDisplayError(false);
+    }
+  }, [loading]);
 
+  const upsertHabit = async ({ title, color, type }) => {
+    setLoading(true);
+    setDisplayError(false);
+
+    const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
     const body = JSON.stringify({
@@ -41,30 +49,26 @@ export default function HabitForm({ habit }) {
 
     const path = isCreateForm ? "/api/habits" : `/api/habits/${habit.id}`;
 
-    fetch(path, requestOptions)
-      .then((response) => {
-        if (response.redirected) {
-          const redirectUrl = response.url;
-
-          window.location.href = redirectUrl;
-        }
-
-        if (response.status >= 200 && response.status < 300) {
-          window.location.href = "/";
-        }
-
-        return response.json();
-      })
-      .then((result) => {
+    try {
+      const response = await fetch(path, requestOptions);
+      if (response.redirected) {
+        const redirectUrl = response.url;
+        window.location.href = redirectUrl;
+      } else if (response.status >= 200 && response.status < 300) {
+        return (window.location.href = "/");
+      } else {
+        const result = await response.json();
+        setLoading(false);
         setDisplayError(true);
         setErrorMessage(result.message.join("; "));
-      })
-      .catch((_err) => {
-        setDisplayError(true);
-        setDisplayError(
-          "We're having problems communicating with our backend services. Please, try again later"
-        );
-      });
+      }
+    } catch (error) {
+      setLoading(false);
+      setDisplayError(true);
+      setErrorMessage(
+        "We're having problems communicating with our backend services. Please, try again later"
+      );
+    }
   };
 
   const handleSubmit = (e) => {
@@ -89,51 +93,55 @@ export default function HabitForm({ habit }) {
           {errorMessage}
         </div>
       )}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="titleInput" className="form-label">
-            Title:
-            <input
-              type="text"
-              className="form-control"
-              id="titleInput"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </label>
-        </div>
-        {isCreateForm && (
+      {loading ? ( // Added loading text
+        <p>Loading...</p>
+      ) : (
+        <form onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="typeSelect" className="form-label">
-              Type:
-              <select
-                id="typeSelect"
+            <label htmlFor="titleInput" className="form-label">
+              Title:
+              <input
+                type="text"
                 className="form-control"
-                value={type}
-                onChange={(e) => setType(e.target.value)}
-              >
-                <option value="">Select a type</option>
-                <option value="Timer">Timer</option>
-                <option value="Binary">Binary</option>
-              </select>
+                id="titleInput"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
             </label>
           </div>
-        )}
-        <div>
-          <label htmlFor="colorPicker" className="form-label">
-            Color:
-            <input
-              type="color"
-              id="colorPicker"
-              value={color}
-              onChange={(e) => setColor(e.target.value)}
-            />
-          </label>
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
-      </form>
+          {isCreateForm && (
+            <div>
+              <label htmlFor="typeSelect" className="form-label">
+                Type:
+                <select
+                  id="typeSelect"
+                  className="form-control"
+                  value={type}
+                  onChange={(e) => setType(e.target.value)}
+                >
+                  <option value="">Select a type</option>
+                  <option value="Timer">Timer</option>
+                  <option value="Binary">Binary</option>
+                </select>
+              </label>
+            </div>
+          )}
+          <div>
+            <label htmlFor="colorPicker" className="form-label">
+              Color:
+              <input
+                type="color"
+                id="colorPicker"
+                value={color}
+                onChange={(e) => setColor(e.target.value)}
+              />
+            </label>
+          </div>
+          <button type="submit" className="btn btn-primary" disabled={loading}>
+            Submit
+          </button>
+        </form>
+      )}
     </>
   );
 }

@@ -38,6 +38,24 @@ export async function createHabit(habit) {
   return res;
 }
 
+export async function updateHabit(habit) {
+  const { id: habitId, ...habitBody } = habit;
+
+  const requestOptions = getAuthRequestOptions({
+    method: "PUT",
+    body: habitBody,
+  });
+  const requestPath = getUrlFor(`/habits/${habitId}`);
+
+  const res = await fetch(requestPath, requestOptions);
+
+  if (res.status === 401) {
+    return redirect("/login");
+  }
+
+  return res;
+}
+
 export async function deleteHabit(habitId) {
   const requestOptions = getAuthRequestOptions({
     method: "DELETE",

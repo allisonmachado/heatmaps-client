@@ -26,7 +26,7 @@ export default function HabitForm({ habit }) {
       ...(isCreateForm ? {} : { id: habit.id }),
       title,
       color: color.slice(1),
-      type,
+      ...(isCreateForm ? { type } : {}),
     });
 
     const commonRequestOptions = {
@@ -102,21 +102,23 @@ export default function HabitForm({ habit }) {
             />
           </label>
         </div>
-        <div>
-          <label htmlFor="typeSelect" className="form-label">
-            Type:
-            <select
-              id="typeSelect"
-              className="form-control"
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-            >
-              <option value="">Select a type</option>
-              <option value="Timer">Timer</option>
-              <option value="Binary">Binary</option>
-            </select>
-          </label>
-        </div>
+        {isCreateForm && (
+          <div>
+            <label htmlFor="typeSelect" className="form-label">
+              Type:
+              <select
+                id="typeSelect"
+                className="form-control"
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+              >
+                <option value="">Select a type</option>
+                <option value="Timer">Timer</option>
+                <option value="Binary">Binary</option>
+              </select>
+            </label>
+          </div>
+        )}
         <div>
           <label htmlFor="colorPicker" className="form-label">
             Color:

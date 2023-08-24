@@ -71,11 +71,11 @@ export default async function Year({
       <NavigationRow
         leftOption={
           <Link
-            href={`/habits/${habitId}/delete?name=${habit.title}`}
+            href={`/habits/${habitId}/update`}
             type="button"
-            className="btn btn-danger"
+            className="btn btn-primary"
           >
-            Delete
+            Update
           </Link>
         }
         rightOption={
@@ -84,7 +84,7 @@ export default async function Year({
             type="button"
             className="btn btn-danger"
           >
-            Delete
+            &#9747; Delete
           </Link>
         }
       />

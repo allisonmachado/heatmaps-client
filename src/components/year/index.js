@@ -80,7 +80,7 @@ export default async function Year({
         }
         rightOption={
           <Link
-            href={`/habits/${habitId}/delete?name=${habit.title}`}
+            href={`/habits/${habitId}/delete`}
             type="button"
             className="btn btn-danger"
           >

@@ -1,7 +1,7 @@
 import { simpleRange } from "@/utils/array";
 import Month from "../month";
 import "./main.css";
-import { findUserHabit, findUserHabitLogs } from "@/data/habits";
+import { findUserHabitLogs, findUserHabitOrRedirect } from "@/data/habits";
 import Link from "next/link";
 import NavigationRow from "../nav-row";
 
@@ -11,7 +11,7 @@ export default async function Year({
   lastDayOfYear,
   currentYear,
 }) {
-  const habit = await findUserHabit(habitId);
+  const habit = await findUserHabitOrRedirect(habitId);
 
   const habitLogs = await findUserHabitLogs({
     habitId,

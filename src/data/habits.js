@@ -22,6 +22,14 @@ export async function findUserHabit(id) {
   return habitList.filter((h) => h.id == id)?.pop();
 }
 
+export async function findUserHabitOrRedirect(id, redirectPath = "/") {
+  const habit = await findUserHabit(id);
+
+  if (!habit) return redirect("/habits");
+
+  return habit;
+}
+
 export async function createHabit(habit) {
   const requestOptions = getAuthRequestOptions({
     method: "POST",

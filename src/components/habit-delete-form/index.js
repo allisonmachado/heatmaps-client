@@ -8,30 +8,30 @@ export default function DeleteHabitForm(props) {
   const [displayError, setDisplayError] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const deleteHabit = ({ id }) => {
+  const deleteHabit = async ({ id }) => {
     setLoading(true);
 
     const requestOptions = {
       method: "DELETE",
     };
 
-    fetch(`/api/habits/${id}`, requestOptions)
-      .then((response) => {
-        if (response.redirected) {
-          const redirectUrl = response.url;
-          window.location.href = redirectUrl;
-        }
+    try {
+      const response = await fetch(`/api/habits/${id}`, requestOptions);
 
-        if (response.status >= 200 && response.status < 300) {
-          return (window.location.href = "/");
-        }
+      if (response.redirected) {
+        const redirectUrl = response.url;
+        window.location.href = redirectUrl;
+      }
 
-        setDisplayError(true);
-      })
-      .catch((_err) => {
-        setLoading(false);
-        setDisplayError(true);
-      });
+      if (response.status >= 200 && response.status < 300) {
+        return (window.location.href = "/");
+      }
+
+      setDisplayError(true);
+    } catch (error) {
+      setLoading(false);
+      setDisplayError(true);
+    }
   };
 
   return (

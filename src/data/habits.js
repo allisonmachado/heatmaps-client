@@ -1,5 +1,6 @@
 import { getAuthRequestOptions } from "@/utils/auth";
 import { transformHabitsArrayToObject } from "@/utils/habits";
+import { assertIsHabitLogList } from "@/utils/schema";
 import { getUrlFor } from "@/utils/url";
 import { redirect } from "next/navigation";
 
@@ -25,7 +26,7 @@ export async function findUserHabit(id) {
 export async function findUserHabitOrRedirect(id, redirectPath = "/") {
   const habit = await findUserHabit(id);
 
-  if (!habit) return redirect("/habits");
+  if (!habit) return redirect(redirectPath);
 
   return habit;
 }
@@ -77,6 +78,30 @@ export async function deleteHabit(habitId) {
   }
 
   return res;
+}
+
+export async function findUserHabitLogOrRedirect(
+  { habitId, targetDate },
+  redirectPath = "/"
+) {
+  const requestOptions = getAuthRequestOptions();
+
+  const requestPath = getUrlFor(`habits/${habitId}/logs`, [
+    ["startDate", targetDate],
+    ["endDate", targetDate],
+  ]);
+
+  const res = await fetch(requestPath, requestOptions);
+
+  if (res.status === 401) {
+    return redirect("/login");
+  }
+
+  const logList = assertIsHabitLogList(await res.json());
+
+  if (!logList) return redirect(redirectPath);
+
+  return logList[0];
 }
 
 export async function findUserHabitLogs({ habitId, startDate, endDate }) {

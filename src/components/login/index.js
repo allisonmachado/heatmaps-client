@@ -7,7 +7,7 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
   const [displayError, setDisplayError] = useState(false);
 
-  const login = ({ email, password }) => {
+  const login = async ({ email, password }) => {
     setDisplayError(false);
     const myHeaders = new Headers();
 
@@ -24,16 +24,18 @@ export default function LoginForm() {
       body,
     };
 
-    fetch("/api/login", requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        if (!result.accessToken) {
-          setDisplayError(true);
-          return;
-        }
+    try {
+      const response = await fetch("/api/login", requestOptions);
+      const result = await response.json();
+
+      if (!result.accessToken) {
+        setDisplayError(true);
+      } else {
         window.location = "/";
-      })
-      .catch((_err) => setDisplayError(true));
+      }
+    } catch (error) {
+      setDisplayError(true);
+    }
   };
 
   const handleSubmit = (e) => {

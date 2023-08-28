@@ -1,5 +1,9 @@
 "use client";
 
+import {
+  COMMUNICATION_ERROR_MESSAGE,
+  DEFAULT_FORM_ERROR_MESSAGE,
+} from "@/utils/constants";
 import { useState, useEffect } from "react";
 
 export default function HabitForm({ habit }) {
@@ -10,12 +14,10 @@ export default function HabitForm({ habit }) {
     habit?.color ? `#${habit.color}` : "#000000"
   );
   const [type, setType] = useState(habit?.type ?? "");
-  const [loading, setLoading] = useState(false); // Added loading state
 
+  const [loading, setLoading] = useState(false);
   const [displayError, setDisplayError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(
-    "Please, check the mandatory input fields and corresponding types."
-  );
+  const [errorMessage, setErrorMessage] = useState(DEFAULT_FORM_ERROR_MESSAGE);
 
   useEffect(() => {
     if (loading) {
@@ -51,23 +53,27 @@ export default function HabitForm({ habit }) {
 
     try {
       const response = await fetch(path, requestOptions);
+
       if (response.redirected) {
         const redirectUrl = response.url;
-        window.location.href = redirectUrl;
-      } else if (response.status >= 200 && response.status < 300) {
-        return (window.location.href = "/");
-      } else {
-        const result = await response.json();
-        setLoading(false);
-        setDisplayError(true);
-        setErrorMessage(result.message.join("; "));
+        return (window.location.href = redirectUrl);
       }
-    } catch (error) {
-      setLoading(false);
+
+      if (response.status >= 200 && response.status < 300) {
+        return (window.location.href = "/");
+      }
+
+      const result = await response.json();
+
       setDisplayError(true);
       setErrorMessage(
-        "We're having problems communicating with our backend services. Please, try again later"
+        result?.message?.join("; ") || DEFAULT_FORM_ERROR_MESSAGE
       );
+      setLoading(false);
+    } catch (error) {
+      setDisplayError(true);
+      setErrorMessage(COMMUNICATION_ERROR_MESSAGE);
+      setLoading(false);
     }
   };
 
@@ -93,7 +99,7 @@ export default function HabitForm({ habit }) {
           {errorMessage}
         </div>
       )}
-      {loading ? ( // Added loading text
+      {loading ? (
         <p>Loading...</p>
       ) : (
         <form onSubmit={handleSubmit}>

@@ -1,17 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import {
+  COMMUNICATION_ERROR_MESSAGE,
+  DEFAULT_FORM_ERROR_MESSAGE,
+} from "@/utils/constants";
+import { useEffect, useState } from "react";
 
 export default function HabitLogForm({ habitId, habitType, date }) {
   const [timerValue, setTimerValue] = useState(null);
 
+  const [loading, setLoading] = useState(false);
   const [displayError, setDisplayError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(
-    "Please, check the mandatory input fields and corresponding types."
-  );
+  const [errorMessage, setErrorMessage] = useState(DEFAULT_FORM_ERROR_MESSAGE);
 
-  const logHabit = ({ habitId, habitType, timerValue, date }) => {
+  useEffect(() => {
+    if (loading) {
+      setDisplayError(false);
+    }
+  }, [loading]);
+
+  const logHabit = async ({ habitId, habitType, timerValue, date }) => {
+    setLoading(true);
     setDisplayError(false);
+
     const myHeaders = new Headers();
 
     myHeaders.append("Content-Type", "application/json");
@@ -31,32 +42,30 @@ export default function HabitLogForm({ habitId, habitType, date }) {
 
     const path = `/api/habits/${habitId}/logs`;
 
-    fetch(path, requestOptions)
-      .then((response) => {
-        if (response.redirected) {
-          const redirectUrl = response.url;
+    try {
+      const response = await fetch(path, requestOptions);
 
-          window.location.href = redirectUrl;
-        }
+      if (response.redirected) {
+        const redirectUrl = response.url;
+        return (window.location.href = redirectUrl);
+      }
 
-        if (response.status >= 200 && response.status < 300) {
-          return (window.location.href = `/habits/${habitId}/`);
-        }
+      if (response.status >= 200 && response.status < 300) {
+        return (window.location.href = `/habits/${habitId}/`);
+      }
 
-        return response.json();
-      })
-      .then((result) => {
-        if (result?.message) {
-          setDisplayError(true);
-          setErrorMessage(result.message.join("; "));
-        }
-      })
-      .catch((_err) => {
-        setDisplayError(true);
-        setDisplayError(
-          "We're having problems communicating with our backend services. Please, try again later"
-        );
-      });
+      const result = await response.json();
+
+      setDisplayError(true);
+      setErrorMessage(
+        result?.message?.join("; ") || DEFAULT_FORM_ERROR_MESSAGE
+      );
+      setLoading(false);
+    } catch (error) {
+      setDisplayError(true);
+      setDisplayError(COMMUNICATION_ERROR_MESSAGE);
+      setLoading(false);
+    }
   };
 
   const handleSubmit = (e) => {
@@ -77,37 +86,41 @@ export default function HabitLogForm({ habitId, habitType, date }) {
           {errorMessage}
         </div>
       )}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label className="form-label">
-            Confirm tracking date &quot;{date}&quot;?
-          </label>
-        </div>
-        {habitType === "Timer" && (
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <form onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="timerInput" className="form-label">
-              *Enter timer value:
-              <input
-                id="timerInput"
-                type="number"
-                value={timerValue}
-                onChange={(e) => setTimerValue(e.target.value)}
-                className="form-control"
-              />
+            <label className="form-label">
+              Confirm tracking date &quot;{date}&quot;?
             </label>
           </div>
-        )}
-        <button type="submit" className="btn btn-primary">
-          Yes
-        </button>
-        <button
-          type="button"
-          className="btn btn-link"
-          onClick={() => history.back()}
-        >
-          Cancel
-        </button>
-      </form>
+          {habitType === "Timer" && (
+            <div>
+              <label htmlFor="timerInput" className="form-label">
+                *Enter timer value:
+                <input
+                  id="timerInput"
+                  type="number"
+                  value={timerValue}
+                  onChange={(e) => setTimerValue(e.target.value)}
+                  className="form-control"
+                />
+              </label>
+            </div>
+          )}
+          <button type="submit" className="btn btn-primary">
+            Yes
+          </button>
+          <button
+            type="button"
+            className="btn btn-link"
+            onClick={() => history.back()}
+          >
+            Cancel
+          </button>
+        </form>
+      )}
     </>
   );
 }

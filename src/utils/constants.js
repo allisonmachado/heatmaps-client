@@ -3,3 +3,9 @@ export const DYNAMIC_DATA_FETCHING_OPTIONS = {
 };
 
 export const HEATMAP_SERVICE_ENDPOINT = process.env.HEATMAP_SERVICE_ENDPOINT;
+
+export const COMMUNICATION_ERROR_MESSAGE =
+  "We're having problems communicating with our backend services. Please, try again later";
+
+export const DEFAULT_FORM_ERROR_MESSAGE =
+  "Please, check the mandatory input fields and corresponding types.";

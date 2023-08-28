@@ -5,9 +5,12 @@ import { useState } from "react";
 export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
   const [displayError, setDisplayError] = useState(false);
+  const [loading, setLoading] = useState(false); // Added loading state
 
   const login = async ({ email, password }) => {
+    setLoading(true);
     setDisplayError(false);
     const myHeaders = new Headers();
 
@@ -26,14 +29,16 @@ export default function LoginForm() {
 
     try {
       const response = await fetch("/api/login", requestOptions);
-      const result = await response.json();
 
-      if (!result.accessToken) {
-        setDisplayError(true);
+      if (response.status >= 200 && response.status < 300) {
+        return (window.location = "/");
       } else {
-        window.location = "/";
+        const result = await response.json();
+        setLoading(false);
+        setErrorMessage(result.message.join("; "));
       }
     } catch (error) {
+      setLoading(false);
       setDisplayError(true);
     }
   };
@@ -54,35 +59,39 @@ export default function LoginForm() {
           Invalid username or password
         </div>
       )}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="usernameInput" className="form-label">
-            Username:
-            <input
-              type="text"
-              className="form-control"
-              id="usernameInput"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </label>
-        </div>
-        <div>
-          <label htmlFor="passwordInput" className="form-label">
-            Password:
-            <input
-              type="password"
-              className="form-control"
-              id="passwordInput"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </label>
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
-      </form>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="usernameInput" className="form-label">
+              Username:
+              <input
+                type="text"
+                className="form-control"
+                id="usernameInput"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </label>
+          </div>
+          <div>
+            <label htmlFor="passwordInput" className="form-label">
+              Password:
+              <input
+                type="password"
+                className="form-control"
+                id="passwordInput"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </label>
+          </div>
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
+        </form>
+      )}
     </>
   );
 }

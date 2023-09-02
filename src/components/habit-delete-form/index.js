@@ -1,55 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useAuthForm } from "@/hooks/use-auth-form";
 
 export default function DeleteHabitForm(props) {
   const { habitId } = props;
 
-  const [displayError, setDisplayError] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const deleteHabit = async ({ id }) => {
-    setLoading(true);
-
-    const requestOptions = {
-      method: "DELETE",
-    };
-
-    try {
-      const response = await fetch(`/api/habits/${id}`, requestOptions);
-
-      if (response.redirected) {
-        const redirectUrl = response.url;
-        window.location.href = redirectUrl;
-      }
-
-      if (response.status >= 200 && response.status < 300) {
-        return (window.location.href = "/");
-      }
-
-      setDisplayError(true);
-    } catch (error) {
-      setLoading(false);
-      setDisplayError(true);
-    }
-  };
+  const { loading, displayError, errorMessage, submitForm } = useAuthForm();
 
   return (
     <>
-      {loading && <div className="loading-indicator">Loading...</div>}
-      {displayError && !loading && (
+      {displayError && (
         <div className="alert alert-warning" role="alert">
-          We are having problems communicating with our backend services.
-          Please, try again later
+          {errorMessage}
         </div>
       )}
-      {loading || (
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
         <div className="row">
           <div className="col">
             <button
               type="button"
               className="btn btn-danger"
-              onClick={() => deleteHabit({ id: habitId })}
+              onClick={() =>
+                submitForm({
+                  requestPath: `/api/habits/${habitId}`,
+                  requestMethod: "DELETE",
+                  successPath: "/",
+                })
+              }
             >
               Yes
             </button>

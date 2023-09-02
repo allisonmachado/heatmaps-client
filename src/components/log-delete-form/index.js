@@ -1,52 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useAuthForm } from "@/hooks/use-auth-form";
 
 export default function DeleteHabitLogForm({ habitLog }) {
-  const [displayError, setDisplayError] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const deleteHabitLog = ({ habitId, logId }) => {
-    setLoading(true);
-    const requestOptions = {
-      method: "DELETE",
-    };
-    fetch(`/api/habits/${habitId}/logs/${logId}`, requestOptions)
-      .then((response) => {
-        if (response.redirected) {
-          const redirectUrl = response.url;
-          window.location.href = redirectUrl;
-        }
-        if (response.status >= 200 && response.status < 300) {
-          return (window.location.href = `/habits/${habitId}`);
-        }
-        setDisplayError(true);
-      })
-      .catch((_err) => {
-        setLoading(false);
-        setDisplayError(true);
-      });
-  };
+  const { loading, displayError, errorMessage, submitForm } = useAuthForm();
 
   return (
     <>
-      {loading && <div className="loading-indicator">Loading...</div>}
-      {displayError && !loading && (
+      {displayError && (
         <div className="alert alert-warning" role="alert">
-          We are having problems communicating with our backend services.
-          Please, try again later
+          {errorMessage}
         </div>
       )}
-      {loading || (
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
         <div className="row">
           <div className="col">
             <button
               type="button"
               className="btn btn-danger"
               onClick={() =>
-                deleteHabitLog({
-                  habitId: habitLog.habitId,
-                  logId: habitLog.id,
+                submitForm({
+                  requestPath: `/api/habits/${habitLog.habitId}/logs/${habitLog.id}`,
+                  requestMethod: "DELETE",
+                  successPath: `/habits/${habitLog.habitId}`,
                 })
               }
             >

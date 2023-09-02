@@ -3,14 +3,14 @@ import { useState, useEffect } from "react";
 
 export function useAuthForm() {
   const [displayError, setDisplayError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [displayLoading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(DEFAULT_FORM_ERROR_MESSAGE);
 
   useEffect(() => {
-    if (loading) {
+    if (displayLoading) {
       setDisplayError(false);
     }
-  }, [loading]);
+  }, [displayLoading]);
 
   const submitForm = async ({
     requestPath,
@@ -58,7 +58,7 @@ export function useAuthForm() {
   };
 
   return {
-    loading,
+    displayLoading,
     displayError,
     errorMessage,
     submitForm,

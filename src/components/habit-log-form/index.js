@@ -1,82 +1,26 @@
 "use client";
 
-import {
-  COMMUNICATION_ERROR_MESSAGE,
-  DEFAULT_FORM_ERROR_MESSAGE,
-} from "@/utils/constants";
-import { useEffect, useState } from "react";
+import { useAuthForm } from "@/hooks/use-auth-form";
+import { useState } from "react";
 
 export default function HabitLogForm({ habitId, habitType, date }) {
-  const [timerValue, setTimerValue] = useState(null);
+  const [timerValue, setTimerValue] = useState("");
 
-  const [loading, setLoading] = useState(false);
-  const [displayError, setDisplayError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(DEFAULT_FORM_ERROR_MESSAGE);
-
-  useEffect(() => {
-    if (loading) {
-      setDisplayError(false);
-    }
-  }, [loading]);
-
-  const logHabit = async ({ habitId, habitType, timerValue, date }) => {
-    setLoading(true);
-    setDisplayError(false);
-
-    const myHeaders = new Headers();
-
-    myHeaders.append("Content-Type", "application/json");
-
-    const body = JSON.stringify({
-      type: habitType,
-      day: date,
-      ...(habitType === "Timer" ? { timerValue: parseInt(timerValue) } : {}),
-    });
-
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body,
-      redirect: "follow",
-    };
-
-    const path = `/api/habits/${habitId}/logs`;
-
-    try {
-      const response = await fetch(path, requestOptions);
-
-      if (response.redirected) {
-        const redirectUrl = response.url;
-        return (window.location.href = redirectUrl);
-      }
-
-      if (response.status >= 200 && response.status < 300) {
-        return (window.location.href = `/habits/${habitId}/`);
-      }
-
-      const result = await response.json();
-
-      setDisplayError(true);
-      setErrorMessage(
-        result?.message?.join("; ") || DEFAULT_FORM_ERROR_MESSAGE
-      );
-      setLoading(false);
-    } catch (error) {
-      setDisplayError(true);
-      setDisplayError(COMMUNICATION_ERROR_MESSAGE);
-      setLoading(false);
-    }
-  };
+  const { loading, displayError, errorMessage, submitForm } = useAuthForm();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (habitType === "Timer" && !timerValue) {
-      setDisplayError(true);
-      return;
-    }
-
-    logHabit({ habitId, habitType, timerValue, date });
+    submitForm({
+      requestPath: `/api/habits/${habitId}/logs`,
+      requestMethod: "POST",
+      requestBody: {
+        type: habitType,
+        day: date,
+        ...(habitType === "Timer" ? { timerValue: parseInt(timerValue) } : {}),
+      },
+      successPath: `/habits/${habitId}`,
+    });
   };
 
   return (

@@ -4,7 +4,7 @@ import {
 } from "@/utils/constants";
 import { useState, useEffect } from "react";
 
-function extractErrorMessage(response) {
+function extractResponseErrorMessage(response) {
   const message = response.message;
 
   if (!message) {
@@ -63,7 +63,7 @@ export function useAuthForm() {
       const result = await response.json();
 
       setDisplayError(true);
-      setErrorMessage(extractErrorMessage(result));
+      setErrorMessage(extractResponseErrorMessage(result));
       setLoading(false);
     } catch (error) {
       setDisplayError(true);

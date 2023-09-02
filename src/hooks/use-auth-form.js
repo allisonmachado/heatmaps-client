@@ -1,5 +1,22 @@
-import { DEFAULT_FORM_ERROR_MESSAGE } from "@/utils/constants";
+import {
+  COMMUNICATION_ERROR_MESSAGE,
+  DEFAULT_FORM_ERROR_MESSAGE,
+} from "@/utils/constants";
 import { useState, useEffect } from "react";
+
+function extractErrorMessage(response) {
+  const message = response.message;
+
+  if (!message) {
+    return DEFAULT_FORM_ERROR_MESSAGE;
+  }
+
+  if (typeof message === "string") {
+    return message;
+  }
+
+  return message.join("; ") || DEFAULT_FORM_ERROR_MESSAGE;
+}
 
 export function useAuthForm() {
   const [displayError, setDisplayError] = useState(false);
@@ -46,9 +63,7 @@ export function useAuthForm() {
       const result = await response.json();
 
       setDisplayError(true);
-      setErrorMessage(
-        result?.message?.join("; ") || DEFAULT_FORM_ERROR_MESSAGE
-      );
+      setErrorMessage(extractErrorMessage(result));
       setLoading(false);
     } catch (error) {
       setDisplayError(true);

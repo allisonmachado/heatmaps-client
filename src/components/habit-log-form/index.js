@@ -2,11 +2,12 @@
 
 import { useAuthForm } from "@/hooks/use-auth-form";
 import { useState } from "react";
+import BaseForm from "../form";
 
 export default function HabitLogForm({ habitId, habitType, date }) {
   const [timerValue, setTimerValue] = useState("");
 
-  const { loading, displayError, errorMessage, submitForm } = useAuthForm();
+  const { submitForm, ...visualProps } = useAuthForm();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,47 +25,38 @@ export default function HabitLogForm({ habitId, habitType, date }) {
   };
 
   return (
-    <>
-      {displayError && (
-        <div className="alert alert-warning" role="alert">
-          {errorMessage}
+    <BaseForm {...visualProps}>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label className="form-label">
+            Confirm tracking date &quot;{date}&quot;?
+          </label>
         </div>
-      )}
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <form onSubmit={handleSubmit}>
+        {habitType === "Timer" && (
           <div>
-            <label className="form-label">
-              Confirm tracking date &quot;{date}&quot;?
+            <label htmlFor="timerInput" className="form-label">
+              *Enter timer value:
+              <input
+                id="timerInput"
+                type="number"
+                value={timerValue}
+                onChange={(e) => setTimerValue(e.target.value)}
+                className="form-control"
+              />
             </label>
           </div>
-          {habitType === "Timer" && (
-            <div>
-              <label htmlFor="timerInput" className="form-label">
-                *Enter timer value:
-                <input
-                  id="timerInput"
-                  type="number"
-                  value={timerValue}
-                  onChange={(e) => setTimerValue(e.target.value)}
-                  className="form-control"
-                />
-              </label>
-            </div>
-          )}
-          <button type="submit" className="btn btn-primary">
-            Yes
-          </button>
-          <button
-            type="button"
-            className="btn btn-link"
-            onClick={() => history.back()}
-          >
-            Cancel
-          </button>
-        </form>
-      )}
-    </>
+        )}
+        <button type="submit" className="btn btn-primary">
+          Yes
+        </button>
+        <button
+          type="button"
+          className="btn btn-link"
+          onClick={() => history.back()}
+        >
+          Cancel
+        </button>
+      </form>
+    </BaseForm>
   );
 }

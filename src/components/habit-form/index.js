@@ -2,6 +2,7 @@
 
 import { useAuthForm } from "@/hooks/use-auth-form";
 import { useState } from "react";
+import BaseForm from "../form";
 
 export default function HabitForm({ habit }) {
   const isCreateForm = !habit;
@@ -12,7 +13,7 @@ export default function HabitForm({ habit }) {
   );
   const [type, setType] = useState(habit?.type ?? "");
 
-  const { loading, displayError, errorMessage, submitForm } = useAuthForm();
+  const { submitForm, ...visualProps } = useAuthForm();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -36,61 +37,52 @@ export default function HabitForm({ habit }) {
   };
 
   return (
-    <>
-      {displayError && (
-        <div className="alert alert-warning" role="alert">
-          {errorMessage}
+    <BaseForm {...visualProps}>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="titleInput" className="form-label">
+            Title:
+            <input
+              type="text"
+              className="form-control"
+              id="titleInput"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </label>
         </div>
-      )}
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <form onSubmit={handleSubmit}>
+        {isCreateForm && (
           <div>
-            <label htmlFor="titleInput" className="form-label">
-              Title:
-              <input
-                type="text"
+            <label htmlFor="typeSelect" className="form-label">
+              Type:
+              <select
+                id="typeSelect"
                 className="form-control"
-                id="titleInput"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+              >
+                <option value="">Select a type</option>
+                <option value="Timer">Timer</option>
+                <option value="Binary">Binary</option>
+              </select>
             </label>
           </div>
-          {isCreateForm && (
-            <div>
-              <label htmlFor="typeSelect" className="form-label">
-                Type:
-                <select
-                  id="typeSelect"
-                  className="form-control"
-                  value={type}
-                  onChange={(e) => setType(e.target.value)}
-                >
-                  <option value="">Select a type</option>
-                  <option value="Timer">Timer</option>
-                  <option value="Binary">Binary</option>
-                </select>
-              </label>
-            </div>
-          )}
-          <div>
-            <label htmlFor="colorPicker" className="form-label">
-              Color:
-              <input
-                type="color"
-                id="colorPicker"
-                value={color}
-                onChange={(e) => setColor(e.target.value)}
-              />
-            </label>
-          </div>
-          <button type="submit" className="btn btn-primary" disabled={loading}>
-            Submit
-          </button>
-        </form>
-      )}
-    </>
+        )}
+        <div>
+          <label htmlFor="colorPicker" className="form-label">
+            Color:
+            <input
+              type="color"
+              id="colorPicker"
+              value={color}
+              onChange={(e) => setColor(e.target.value)}
+            />
+          </label>
+        </div>
+        <button type="submit" className="btn btn-primary">
+          Submit
+        </button>
+      </form>
+    </BaseForm>
   );
 }

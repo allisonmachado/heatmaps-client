@@ -1,3 +1,4 @@
+import ActionHeader from "@/components/action-header";
 import DeleteHabitLogForm from "@/components/log-delete-form";
 import {
   findUserHabitLogOrRedirect,
@@ -23,19 +24,10 @@ export default async function DeleteHabitLog(props) {
 
   return (
     <>
-      <div className="row">
-        <div className="col">
-          <h1>Delete confirmation</h1>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col">
-          <p>
-            Are you sure you want to delete the {habit.title} log from &quot;
-            {date}&quot;?
-          </p>
-        </div>
-      </div>
+      <ActionHeader
+        title={"Delete Confirmation"}
+        subTitle={`Are you sure you want to delete the ${habit.title} log from "${date}"`}
+      ></ActionHeader>
       <DeleteHabitLogForm habitLog={habitLog} />
     </>
   );

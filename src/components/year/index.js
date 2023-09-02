@@ -1,6 +1,5 @@
 import { simpleRange } from "@/utils/array";
 import Month from "../month";
-import "./main.css";
 import { findUserHabitLogs, findUserHabitOrRedirect } from "@/data/habits";
 import Link from "next/link";
 import NavigationRow from "../nav-row";

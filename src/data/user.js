@@ -1,9 +1,10 @@
 import { DYNAMIC_DATA_FETCHING_OPTIONS } from "@/utils/constants";
+import { getUrlFor } from "@/utils/url";
 
 export async function loginRequest({ email, password }) {
   const myHeaders = new Headers();
-
   myHeaders.append("Content-Type", "application/json");
+
   const body = JSON.stringify({
     email,
     password,
@@ -16,5 +17,7 @@ export async function loginRequest({ email, password }) {
     body,
   };
 
-  return fetch("http://localhost:8000/auth/login", requestOptions);
+  const requestPath = getUrlFor("/auth/login");
+
+  return fetch(requestPath, requestOptions);
 }

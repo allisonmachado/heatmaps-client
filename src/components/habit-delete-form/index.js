@@ -20,6 +20,7 @@ export default function DeleteHabitForm(props) {
                 requestPath: `/api/habits/${habitId}`,
                 requestMethod: "DELETE",
                 successPath: "/",
+                successMessage: "Habit deleted successfully",
               })
             }
           >

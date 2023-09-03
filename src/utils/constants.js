@@ -9,3 +9,5 @@ export const COMMUNICATION_ERROR_MESSAGE =
 
 export const DEFAULT_FORM_ERROR_MESSAGE =
   "Please, check the mandatory input fields and corresponding types.";
+
+export const DEFAULT_FORM_SUCCESS_MESSAGE = "Operation completed successfully";

@@ -53,6 +53,7 @@ export default function HabitLogForm({ habitId, habitType, date }) {
           : {}),
       },
       successPath: `/habits/${habitId}`,
+      successMessage: "Log created successfully",
     });
   };
 

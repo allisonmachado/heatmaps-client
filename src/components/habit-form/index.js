@@ -22,6 +22,9 @@ export default function HabitForm({ habit }) {
       ? "/api/habits"
       : `/api/habits/${habit.id}`;
     const requestMethod = isCreateForm ? "POST" : "PUT";
+    const successMessage = isCreateForm
+      ? "Habit created successfully"
+      : "Habit updated successfully";
 
     submitForm({
       requestPath,
@@ -33,6 +36,7 @@ export default function HabitForm({ habit }) {
         ...(isCreateForm ? { type } : {}),
       },
       successPath: "/",
+      successMessage,
     });
   };
 

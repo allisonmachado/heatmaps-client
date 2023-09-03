@@ -18,6 +18,7 @@ export default function DeleteHabitLogForm({ habitLog }) {
                 requestPath: `/api/habits/${habitLog.habitId}/logs/${habitLog.id}`,
                 requestMethod: "DELETE",
                 successPath: `/habits/${habitLog.habitId}`,
+                successMessage: "Log deleted successfully",
               })
             }
           >

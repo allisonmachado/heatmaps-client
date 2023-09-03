@@ -1,8 +1,10 @@
 import {
   COMMUNICATION_ERROR_MESSAGE,
   DEFAULT_FORM_ERROR_MESSAGE,
+  DEFAULT_FORM_SUCCESS_MESSAGE,
 } from "@/utils/constants";
 import { useState, useEffect } from "react";
+import swal from "sweetalert";
 
 function extractResponseErrorMessage(response) {
   const message = response.message;
@@ -34,6 +36,7 @@ export function useAuthForm() {
     requestMethod,
     requestBody,
     successPath,
+    successMessage,
   }) => {
     setLoading(true);
     setDisplayError(false);
@@ -57,6 +60,8 @@ export function useAuthForm() {
       }
 
       if (response.status >= 200 && response.status < 300) {
+        await swal(successMessage ?? DEFAULT_FORM_SUCCESS_MESSAGE);
+
         return (window.location.href = successPath);
       }
 

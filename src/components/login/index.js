@@ -21,6 +21,7 @@ export default function LoginForm() {
         password,
       },
       successPath: `/`,
+      successMessage: false,
     });
   };
 

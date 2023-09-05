@@ -60,7 +60,9 @@ export function useAuthForm() {
       }
 
       if (response.status >= 200 && response.status < 300) {
-        await swal(successMessage ?? DEFAULT_FORM_SUCCESS_MESSAGE);
+        if (successMessage !== false) {
+          await swal(successMessage ?? DEFAULT_FORM_SUCCESS_MESSAGE);
+        }
 
         return (window.location.href = successPath);
       }

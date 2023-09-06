@@ -1,13 +1,14 @@
 import { DYNAMIC_DATA_FETCHING_OPTIONS } from "@/utils/constants";
 import { getUrlFor } from "@/utils/url";
 
-export async function loginRequest({ email, password }) {
+export async function loginRequest({ email, password, recaptchaToken }) {
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
   const body = JSON.stringify({
     email,
     password,
+    recaptchaToken,
   });
 
   const requestOptions = {

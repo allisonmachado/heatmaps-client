@@ -11,6 +11,7 @@ export async function POST(request) {
   const loginResult = await loginRequest({
     email: body.email,
     password: body.password,
+    recaptchaToken: body.recaptchaToken,
   });
 
   if (!loginResult.ok) {

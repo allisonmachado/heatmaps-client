@@ -4,9 +4,12 @@ import { useState } from "react";
 import BaseForm from "../form";
 import { useAuthForm } from "@/hooks/use-auth-form";
 
+import ReCAPTCHA from "react-google-recaptcha";
+
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [recaptchaToken, setRecaptchaToken] = useState("");
 
   const { submitForm, ...visualProps } = useAuthForm();
 
@@ -19,6 +22,7 @@ export default function LoginForm() {
       requestBody: {
         email,
         password,
+        recaptchaToken,
       },
       successPath: `/`,
       successMessage: false,
@@ -52,6 +56,10 @@ export default function LoginForm() {
             />
           </label>
         </div>
+        <ReCAPTCHA
+          sitekey="6LfF5gAoAAAAAHPxOYtRBJ-TBw-FGjxK3lAy6Bvd"
+          onChange={(token) => setRecaptchaToken(token)}
+        />
         <button type="submit" className="btn btn-primary">
           Submit
         </button>

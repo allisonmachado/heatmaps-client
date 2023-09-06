@@ -1,14 +1,16 @@
-name: Release
-
-# This action works on closed pull requests
 on:
-  pull_request_target:
-    types:
-      - closed
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+name: release-please
 
 jobs:
-  if_merged:
-    if: github.event.pull_request.merged == true
+  release-please:
     runs-on: ubuntu-latest
     steps:
       - uses: google-github-actions/release-please-action@v3

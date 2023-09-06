@@ -9,7 +9,7 @@ export default function HabitForm({ habit }) {
 
   const [title, setTitle] = useState(habit?.title ?? "");
   const [color, setColor] = useState(
-    habit?.color ? `#${habit.color}` : "#000000"
+    habit?.color ? `#${habit.color}` : "#000000",
   );
   const [type, setType] = useState(habit?.type ?? "");
 

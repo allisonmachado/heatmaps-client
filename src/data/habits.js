@@ -82,7 +82,7 @@ export async function deleteHabit(habitId) {
 
 export async function findUserHabitLogOrRedirect(
   { habitId, targetDate },
-  redirectPath = "/"
+  redirectPath = "/",
 ) {
   const requestOptions = getAuthRequestOptions();
 

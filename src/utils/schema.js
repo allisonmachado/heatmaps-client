@@ -7,7 +7,7 @@ const habitLogList = Joi.array()
       habitId: Joi.number().required(),
       day: Joi.date().iso().required(),
       timerValue: Joi.any().allow(null).required(),
-    })
+    }),
   )
   .min(1);
 

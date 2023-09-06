@@ -37,7 +37,7 @@ export default function Day({
         className={`${todayClass}`}
         onClick={() =>
           router.push(
-            `/habits/${habitId}/logs/create?date=${date}&habitType=${habitType}`
+            `/habits/${habitId}/logs/create?date=${date}&habitType=${habitType}`,
           )
         }
       >
@@ -52,7 +52,7 @@ export default function Day({
         className={`active ${todayClass}`}
         onClick={() =>
           router.push(
-            `/habits/${habitId}/logs/${habitLog.id}/delete?date=${date}`
+            `/habits/${habitId}/logs/${habitLog.id}/delete?date=${date}`,
           )
         }
         style={{
@@ -69,7 +69,7 @@ export default function Day({
       className={`active-timer ${todayClass}`}
       onClick={() =>
         router.push(
-          `/habits/${habitId}/logs/${habitLog.id}/delete?date=${date}`
+          `/habits/${habitId}/logs/${habitLog.id}/delete?date=${date}`,
         )
       }
       style={{

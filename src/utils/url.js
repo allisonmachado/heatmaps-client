@@ -3,7 +3,7 @@ import { HEATMAP_SERVICE_ENDPOINT } from "./constants";
 export const getUrlFor = (
   path,
   queryStrings = [],
-  service = HEATMAP_SERVICE_ENDPOINT
+  service = HEATMAP_SERVICE_ENDPOINT,
 ) => {
   const url = new URL(path, service);
 

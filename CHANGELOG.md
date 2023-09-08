@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/allisonmachado/heatmaps-client/compare/v0.1.0...v0.1.1) (2023-09-08)
+
+
+### Bug Fixes
+
+* add try-catch logic on main page ([41ea612](https://github.com/allisonmachado/heatmaps-client/commit/41ea6127c6b2e1c6859eac08161b54461e812fd9))
+
 ## 0.1.0 (2023-09-06)
 
 

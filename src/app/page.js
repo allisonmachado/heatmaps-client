@@ -1,41 +1,50 @@
 import BulletPoint from "@/components/bullet-point";
 import { findUserHabits } from "@/data/habits";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
-  const habits = await findUserHabits();
+  try {
+    const habits = await findUserHabits();
 
-  return (
-    <>
-      <div className="row">
-        <div className="col">
-          {habits.length ? (
-            <>
-              <h1>Habits:</h1>
-              <ul className="list-group">
-                {habits.map((h) => (
-                  <Link
-                    key={h.id}
-                    href={`/habits/${h.id}`}
-                    className="list-group-item list-group-item-action"
-                  >
-                    <BulletPoint color={h.color} /> {h.title}
-                  </Link>
-                ))}
-              </ul>
-            </>
-          ) : (
-            <p>No habits created</p>
-          )}
+    return (
+      <>
+        <div className="row">
+          <div className="col">
+            {habits.length ? (
+              <>
+                <h1>Habits:</h1>
+                <ul className="list-group">
+                  {habits.map((h) => (
+                    <Link
+                      key={h.id}
+                      href={`/habits/${h.id}`}
+                      className="list-group-item list-group-item-action"
+                    >
+                      <BulletPoint color={h.color} /> {h.title}
+                    </Link>
+                  ))}
+                </ul>
+              </>
+            ) : (
+              <p>No habits created</p>
+            )}
+          </div>
         </div>
-      </div>
-      <div className="row">
-        <div className="col">
-          <Link href="/habits/create" type="button" className="btn btn-primary">
-            &#43; New Habit
-          </Link>
+        <div className="row">
+          <div className="col">
+            <Link
+              href="/habits/create"
+              type="button"
+              className="btn btn-primary"
+            >
+              &#43; New Habit
+            </Link>
+          </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  } catch (error) {
+    return redirect("/login");
+  }
 }

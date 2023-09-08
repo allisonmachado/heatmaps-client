@@ -1,3 +1,4 @@
+import ActionHeader from "@/components/action-header";
 import HabitLogForm from "@/components/habit-log-form";
 import { findUserHabitOrRedirect } from "@/data/habits";
 
@@ -11,16 +12,11 @@ export default async function NewHabitLog(props) {
 
   return (
     <>
-      <div className="row">
-        <div className="col">
-          <h1>Log Day</h1>
-        </div>
-      </div>
-      <div className="row">
-        <div>
-          <HabitLogForm habitId={id} date={date} habitType={habitType} />
-        </div>
-      </div>
+      <ActionHeader
+        title={"Log Day"}
+        subTitle={`Confirm tracking date "${date}"`}
+      />
+      <HabitLogForm habitId={id} date={date} habitType={habitType} />
     </>
   );
 }

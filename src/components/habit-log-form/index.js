@@ -60,11 +60,6 @@ export default function HabitLogForm({ habitId, habitType, date }) {
   return (
     <BaseForm {...visualProps}>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label className="form-label">
-            Confirm tracking date &quot;{date}&quot;?
-          </label>
-        </div>
         {habitType === "Timer" && (
           <>
             <div>

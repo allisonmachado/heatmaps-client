@@ -9,18 +9,13 @@ export default function manifest() {
     icons: [
       {
         src: "favicon.ico",
-        sizes: "96x96",
+        sizes: "512x512",
         type: "image/x-icon",
       },
       {
-        src: "logo100.png",
+        src: "calendar.png",
         type: "image/png",
-        sizes: "50x50",
-      },
-      {
-        src: "logo500.png",
-        type: "image/png",
-        sizes: "100x100",
+        sizes: "512x512",
       },
     ],
   };

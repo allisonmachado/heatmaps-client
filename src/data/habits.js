@@ -1,5 +1,6 @@
 import { getAuthRequestOptions } from "@/utils/auth";
 import { transformHabitsArrayToObject } from "@/utils/habits";
+import { boundRequest } from "@/utils/request";
 import { assertIsHabitLogList } from "@/utils/schema";
 import { getUrlFor } from "@/utils/url";
 import { redirect } from "next/navigation";
@@ -8,11 +9,7 @@ export async function findUserHabits() {
   const requestOptions = getAuthRequestOptions();
   const requestPath = getUrlFor("habits");
 
-  const res = await fetch(requestPath, requestOptions);
-
-  if (res.status === 401) {
-    return redirect("/login");
-  }
+  const res = await boundRequest(requestPath, requestOptions);
 
   return res.json();
 }
@@ -38,11 +35,7 @@ export async function createHabit(habit) {
   });
   const requestPath = getUrlFor("habits");
 
-  const res = await fetch(requestPath, requestOptions);
-
-  if (res.status === 401) {
-    return redirect("/login");
-  }
+  const res = await boundRequest(requestPath, requestOptions);
 
   return res;
 }
@@ -56,11 +49,7 @@ export async function updateHabit(habit) {
   });
   const requestPath = getUrlFor(`/habits/${habitId}`);
 
-  const res = await fetch(requestPath, requestOptions);
-
-  if (res.status === 401) {
-    return redirect("/login");
-  }
+  const res = await boundRequest(requestPath, requestOptions);
 
   return res;
 }
@@ -71,18 +60,14 @@ export async function deleteHabit(habitId) {
   });
   const requestPath = getUrlFor(`habits/${habitId}`);
 
-  const res = await fetch(requestPath, requestOptions);
-
-  if (res.status === 401) {
-    return redirect("/login");
-  }
+  const res = await boundRequest(requestPath, requestOptions);
 
   return res;
 }
 
 export async function findUserHabitLogOrRedirect(
   { habitId, targetDate },
-  redirectPath = "/",
+  redirectPath = "/"
 ) {
   const requestOptions = getAuthRequestOptions();
 
@@ -91,11 +76,7 @@ export async function findUserHabitLogOrRedirect(
     ["endDate", targetDate],
   ]);
 
-  const res = await fetch(requestPath, requestOptions);
-
-  if (res.status === 401) {
-    return redirect("/login");
-  }
+  const res = await boundRequest(requestPath, requestOptions);
 
   const logList = assertIsHabitLogList(await res.json());
 
@@ -112,11 +93,7 @@ export async function findUserHabitLogs({ habitId, startDate, endDate }) {
     ["endDate", endDate],
   ]);
 
-  const res = await fetch(requestPath, requestOptions);
-
-  if (res.status === 401) {
-    return redirect("/login");
-  }
+  const res = await boundRequest(requestPath, requestOptions);
 
   const habits = await res.json();
 
@@ -128,13 +105,9 @@ export async function logUserHabit(log, habitId) {
     method: "POST",
     body: log,
   });
-
   const requestPath = getUrlFor(`habits/${habitId}/logs`);
-  const res = await fetch(requestPath, requestOptions);
 
-  if (res.status === 401) {
-    return redirect("/login");
-  }
+  const res = await boundRequest(requestPath, requestOptions);
 
   return res;
 }
@@ -143,13 +116,9 @@ export async function deleteUserHabitLog(habitId, logId) {
   const requestOptions = getAuthRequestOptions({
     method: "DELETE",
   });
-
   const requestPath = getUrlFor(`habits/${habitId}/logs/${logId}`);
-  const res = await fetch(requestPath, requestOptions);
 
-  if (res.status === 401) {
-    return redirect("/login");
-  }
+  const res = await boundRequest(requestPath, requestOptions);
 
   return res;
 }

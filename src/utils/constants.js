@@ -11,3 +11,5 @@ export const DEFAULT_FORM_ERROR_MESSAGE =
   "Please, check the mandatory input fields and corresponding types.";
 
 export const DEFAULT_FORM_SUCCESS_MESSAGE = "Operation completed successfully";
+
+export const MAX_REQUEST_TIMEOUT_DURATION = 5000;

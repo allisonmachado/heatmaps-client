@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.1](https://github.com/allisonmachado/heatmaps-client/compare/v0.2.0...v0.2.1) (2023-09-09)
+
+
+### Bug Fixes
+
+* correct theme color ([249119b](https://github.com/allisonmachado/heatmaps-client/commit/249119ba7bbba94324792b41c937e4eb808409ea))
+* update app icons ([17ec248](https://github.com/allisonmachado/heatmaps-client/commit/17ec248a6b6636998494de07ac0de09e5e6b1223))
+
 ## [0.2.0](https://github.com/allisonmachado/heatmaps-client/compare/v0.1.0...v0.2.0) (2023-09-08)
 
 

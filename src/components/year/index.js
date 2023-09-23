@@ -56,6 +56,7 @@ export default async function Year({
         {new simpleRange(12).map((month) => (
           <div
             key={month}
+            id={`month-${month}`}
             className="col-xs-12 col-sm-6 col-lg-4 col-xl-2 mb-4"
           >
             <Month

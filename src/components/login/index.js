@@ -31,7 +31,7 @@ export default function LoginForm() {
 
   return (
     <BaseForm {...visualProps}>
-      <form onSubmit={handleSubmit}>
+      <form>
         <div>
           <label htmlFor="emailInput" className="form-label">
             Email:
@@ -60,7 +60,11 @@ export default function LoginForm() {
           sitekey="6LfF5gAoAAAAAHPxOYtRBJ-TBw-FGjxK3lAy6Bvd"
           onChange={(token) => setRecaptchaToken(token)}
         />
-        <button type="submit" className="btn btn-primary">
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={handleSubmit}
+        >
           Submit
         </button>
       </form>

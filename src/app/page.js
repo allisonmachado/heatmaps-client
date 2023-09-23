@@ -1,10 +1,10 @@
 import BulletPoint from "@/components/bullet-point";
 import { findUserHabits } from "@/data/habits";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 export default async function Home() {
   const habits = await findUserHabits();
+  const currentMonth = new Date().getMonth();
 
   return (
     <>
@@ -17,7 +17,7 @@ export default async function Home() {
                 {habits.map((h) => (
                   <Link
                     key={h.id}
-                    href={`/habits/${h.id}`}
+                    href={`/habits/${h.id}#month-${currentMonth}`}
                     className="list-group-item list-group-item-action"
                   >
                     <BulletPoint color={h.color} /> {h.title}

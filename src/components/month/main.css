@@ -98,26 +98,13 @@ body {
 @media screen and (max-width: 420px) {
   .weekdays li,
   .days li {
-    width: 12.5%;
+    width: 13.1%;
   }
   .days li .active {
     padding: 0.1rem;
   }
   .days li .active-timer {
     padding: 0.1rem;
-  }
-  .days li .today {
-    border: solid;
-    border-color: black;
-    border-width: 0.1rem;
-    padding: 0.2rem;
-  }
-}
-
-@media screen and (max-width: 290px) {
-  .weekdays li,
-  .days li {
-    width: 12.2%;
   }
   .days li .today {
     border: solid;

@@ -21,6 +21,7 @@ export default function Month({ year, month, habit, habitLogs }) {
 
   const currentMonth = months[month];
   const numberOfDays = getNumberOfDays(year, month);
+  const firstWeekDay = new Date(year, month, 1).getDay();
 
   const extractHabitLog = (habitType, habitLogs, dateKey) => {
     const log = habitLogs[dateKey];
@@ -59,23 +60,29 @@ export default function Month({ year, month, habit, habitLogs }) {
       </div>
 
       <ul className="weekdays">
+        <li>Su</li>
         <li>Mo</li>
         <li>Tu</li>
         <li>We</li>
         <li>Th</li>
         <li>Fr</li>
         <li>Sa</li>
-        <li>Su</li>
       </ul>
 
       <ul className="days">
+        {/* fill in spaces for layout */}
+        {simpleRange(firstWeekDay).map((day) => (
+          <li key={day}>
+            <span>&nbsp;</span>
+          </li>
+        ))}
         {simpleRange(numberOfDays).map((day) => {
           const adjustedDay = day + 1;
           const dateValue = new Date(year, month, adjustedDay);
           const dateKey = formatDateToYYYYMMDD(dateValue);
 
           return (
-            <li key={day}>
+            <li key={day + firstWeekDay}>
               <Day
                 number={adjustedDay}
                 date={dateKey}
@@ -88,12 +95,6 @@ export default function Month({ year, month, habit, habitLogs }) {
             </li>
           );
         })}
-        {/* fill in spaces for layout */}
-        {simpleRange(31 - numberOfDays).map((day) => (
-          <li key={day + numberOfDays}>
-            <span>&nbsp;</span>
-          </li>
-        ))}
       </ul>
     </>
   );

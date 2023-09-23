@@ -8,13 +8,13 @@ export default async function NewHabitLog(props) {
     searchParams: { date, habitType },
   } = props;
 
-  await findUserHabitOrRedirect(id);
+  const habit = await findUserHabitOrRedirect(id);
 
   return (
     <>
       <ActionHeader
         title={"Log Day"}
-        subTitle={`Confirm tracking date "${date}"`}
+        subTitle={`Confirm tracking date "${date}" for habit "${habit.title}"`}
       />
       <HabitLogForm habitId={id} date={date} habitType={habitType} />
     </>

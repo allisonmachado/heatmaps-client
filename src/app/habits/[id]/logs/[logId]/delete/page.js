@@ -26,7 +26,7 @@ export default async function DeleteHabitLog(props) {
     <>
       <ActionHeader
         title={"Delete Confirmation"}
-        subTitle={`Are you sure you want to delete the ${habit.title} log from "${date}"`}
+        subTitle={`Are you sure you want to delete the log "${date}" from habit "${habit.title}"`}
       />
       <DeleteHabitLogForm habitLog={habitLog} />
     </>

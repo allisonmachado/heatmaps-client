@@ -43,3 +43,8 @@ export function formatDateToYYYYMMDD(date) {
 
   return `${year}-${month}-${day}`;
 }
+
+export function getCurrentMonthScrollId() {
+  const currentMonth = new Date().getMonth();
+  return `month-${currentMonth}`;
+}

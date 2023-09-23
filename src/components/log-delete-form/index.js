@@ -2,9 +2,11 @@
 
 import { useAuthForm } from "@/hooks/use-auth-form";
 import BaseForm from "../form";
+import { getCurrentMonthScrollId } from "@/utils/date";
 
 export default function DeleteHabitLogForm({ habitLog }) {
   const { submitForm, ...visualProps } = useAuthForm();
+  const monthScrollId = getCurrentMonthScrollId();
 
   return (
     <BaseForm {...visualProps}>
@@ -17,7 +19,7 @@ export default function DeleteHabitLogForm({ habitLog }) {
               submitForm({
                 requestPath: `/api/habits/${habitLog.habitId}/logs/${habitLog.id}`,
                 requestMethod: "DELETE",
-                successPath: `/habits/${habitLog.habitId}`,
+                successPath: `/habits/${habitLog.habitId}#${monthScrollId}`,
                 successMessage: "Log deleted successfully",
               })
             }

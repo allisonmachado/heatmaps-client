@@ -4,10 +4,12 @@ import { useAuthForm } from "@/hooks/use-auth-form";
 import { useState } from "react";
 import BaseForm from "../form";
 import { convertHoursToMinutes, convertMinutesToHours } from "@/utils/time";
+import { getCurrentMonthScrollId } from "@/utils/date";
 
 export default function HabitLogForm({ habitId, habitType, date }) {
   const [minuteTimerValue, setMinuteTimerValue] = useState("");
   const [hourTimerValue, setHourTimerValue] = useState("");
+  const monthScrollId = getCurrentMonthScrollId();
 
   const { submitForm, ...visualProps } = useAuthForm();
 
@@ -52,7 +54,7 @@ export default function HabitLogForm({ habitId, habitType, date }) {
           ? { timerValue: parseInt(minuteTimerValue) }
           : {}),
       },
-      successPath: `/habits/${habitId}`,
+      successPath: `/habits/${habitId}#${monthScrollId}`,
       successMessage: "Log created successfully",
     });
   };

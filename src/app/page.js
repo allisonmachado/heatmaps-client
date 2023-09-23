@@ -1,10 +1,11 @@
 import BulletPoint from "@/components/bullet-point";
 import { findUserHabits } from "@/data/habits";
+import { getCurrentMonthScrollId } from "@/utils/date";
 import Link from "next/link";
 
 export default async function Home() {
   const habits = await findUserHabits();
-  const currentMonth = new Date().getMonth();
+  const monthScrollId = getCurrentMonthScrollId();
 
   return (
     <>
@@ -17,7 +18,7 @@ export default async function Home() {
                 {habits.map((h) => (
                   <Link
                     key={h.id}
-                    href={`/habits/${h.id}#month-${currentMonth}`}
+                    href={`/habits/${h.id}#${monthScrollId}`}
                     className="list-group-item list-group-item-action"
                   >
                     <BulletPoint color={h.color} /> {h.title}

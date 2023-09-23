@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.3.0](https://github.com/allisonmachado/heatmaps-client/compare/v0.2.1...v0.3.0) (2023-09-23)
+
+
+### Features
+
+* add id to months ([d6bcdd2](https://github.com/allisonmachado/heatmaps-client/commit/d6bcdd21243ae8f6f9cc108bfa9ff5cd0f03fc7f))
+* improve  navigation and ux ([bfdd5f1](https://github.com/allisonmachado/heatmaps-client/commit/bfdd5f181fb0d283331f58e2f832f16272446122))
+* improve login screen to only submit form after recaptcha is filled ([f216ae4](https://github.com/allisonmachado/heatmaps-client/commit/f216ae4ad9dafc725673f2f4f87864a17ce09ffc))
+* scroll to current month ([940e20d](https://github.com/allisonmachado/heatmaps-client/commit/940e20dfc82e7d2a7f2231b609b4349286689adf))
+
+
+### Bug Fixes
+
+* add proper cold-start response ([7e11723](https://github.com/allisonmachado/heatmaps-client/commit/7e11723cb22f15e169a4f20c7bd116c43e015071))
+* correct date calendars ([939f9d5](https://github.com/allisonmachado/heatmaps-client/commit/939f9d548f9d4d700c4ddd49f9878c6ad5ef2e92))
+* improve loading screen ([e238f68](https://github.com/allisonmachado/heatmaps-client/commit/e238f6846a75e07141793ef9e6b75e24acce68a9))
+* responsive week days ([cc1586a](https://github.com/allisonmachado/heatmaps-client/commit/cc1586ae0b400d5c6425fad4cbda4b88f275bcf4))
+
 ## [0.2.1](https://github.com/allisonmachado/heatmaps-client/compare/v0.2.0...v0.2.1) (2023-09-09)
 
 
